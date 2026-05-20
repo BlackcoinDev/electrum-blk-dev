@@ -51,3 +51,8 @@ electrum/*.so.*
 electrum/*.dll
 electrum/*.dylib
 contrib/osx/*.dylib
+
+# Blackcoin specifics
+Electrum_BLK.egg-info/
+/.omo/
+AGENTS.md
