@@ -1,7 +1,7 @@
-from electrum.coinchooser import CoinChooserPrivacy
-from electrum.util import NotEnoughFunds
-from electrum.transaction import PartialTxInput, TxOutpoint, Transaction, PartialTxOutput
-from electrum.fee_policy import FeePolicy, FixedFeePolicy
+from electrum_blk.coinchooser import CoinChooserPrivacy
+from electrum_blk.util import NotEnoughFunds
+from electrum_blk.transaction import PartialTxInput, TxOutpoint, Transaction, PartialTxOutput
+from electrum_blk.fee_policy import FeePolicy, FixedFeePolicy
 from functools import partial
 from typing import Optional
 

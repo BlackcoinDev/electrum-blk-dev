@@ -1,13 +1,13 @@
 import os
 import time
 
-from electrum.simple_config import SimpleConfig
-from electrum.wallet import Standard_Wallet, Abstract_Wallet
-from electrum.invoices import PR_UNPAID, PR_PAID, PR_UNCONFIRMED, BaseInvoice, Invoice, LN_EXPIRY_NEVER
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED
-from electrum.transaction import Transaction, PartialTxOutput
-from electrum.util import TxMinedInfo, InvoiceError
-from electrum.fee_policy import FixedFeePolicy
+from electrum_blk.simple_config import SimpleConfig
+from electrum_blk.wallet import Standard_Wallet, Abstract_Wallet
+from electrum_blk.invoices import PR_UNPAID, PR_PAID, PR_UNCONFIRMED, BaseInvoice, Invoice, LN_EXPIRY_NEVER
+from electrum_blk.address_synchronizer import TX_HEIGHT_UNCONFIRMED
+from electrum_blk.transaction import Transaction, PartialTxOutput
+from electrum_blk.util import TxMinedInfo, InvoiceError
+from electrum_blk.fee_policy import FixedFeePolicy
 
 from . import ElectrumTestCase
 from . import restore_wallet_from_text__for_unittest

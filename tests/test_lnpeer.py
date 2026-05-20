@@ -21,38 +21,38 @@ from aiorpcx import timeout_after, TaskTimeout
 from electrum_ecc import ECPrivkey
 import electrum_ecc as ecc
 
-import electrum
-import electrum.trampoline
-from electrum import bitcoin
-from electrum import util
-from electrum import constants
-from electrum import bip32
-from electrum.network import Network, ProxySettings
-from electrum import simple_config, lnutil
-from electrum.bolt11 import encode_bolt11_invoice, BOLT11Addr, decode_bolt11_invoice
-from electrum.bitcoin import COIN, sha256
-from electrum.transaction import Transaction
-from electrum.util import NetworkRetryManager, bfh, OldTaskGroup, EventListener, InvoiceError
-from electrum.lnpeer import Peer
-from electrum.lntransport import LNPeerAddr
-from electrum.crypto import privkey_to_pubkey
-from electrum.lnutil import Keypair, PaymentFailure, LnFeatures, HTLCOwner, PaymentFeeBudget, RECEIVED
-from electrum.lnchannel import ChannelState, PeerState, Channel
-from electrum.lnrouter import LNPathFinder, PathEdge, LNPathInconsistent
-from electrum.channel_db import ChannelDB, InvalidGossipMsg
-from electrum.lnworker import LNWallet, NoPathFound, SentHtlcInfo, PaySession, LNPeerManager
-from electrum.lnmsg import encode_msg, decode_msg
-from electrum import lnmsg
-from electrum.logging import console_stderr_handler, Logger
-from electrum.lnworker import PaymentInfo
-from electrum.lnonion import OnionFailureCode, OnionRoutingFailure, OnionHopsDataSingle, OnionPacket
-from electrum.lnutil import LOCAL, REMOTE, UpdateAddHtlc, RecvMPPResolution, RevocationStore
-from electrum.invoices import PR_PAID, PR_UNPAID, Invoice, LN_EXPIRY_NEVER
-from electrum.interface import GracefulDisconnect
-from electrum.simple_config import SimpleConfig
-from electrum.fee_policy import FeeTimeEstimates, FEE_ETA_TARGETS
-from electrum.mpp_split import split_amount_normal
-from electrum.wallet import Abstract_Wallet, Standard_Wallet
+import electrum_blk
+import electrum_blk.trampoline
+from electrum_blk import bitcoin
+from electrum_blk import util
+from electrum_blk import constants
+from electrum_blk import bip32
+from electrum_blk.network import Network, ProxySettings
+from electrum_blk import simple_config, lnutil
+from electrum_blk.bolt11 import encode_bolt11_invoice, BOLT11Addr, decode_bolt11_invoice
+from electrum_blk.bitcoin import COIN, sha256
+from electrum_blk.transaction import Transaction
+from electrum_blk.util import NetworkRetryManager, bfh, OldTaskGroup, EventListener, InvoiceError
+from electrum_blk.lnpeer import Peer
+from electrum_blk.lntransport import LNPeerAddr
+from electrum_blk.crypto import privkey_to_pubkey
+from electrum_blk.lnutil import Keypair, PaymentFailure, LnFeatures, HTLCOwner, PaymentFeeBudget, RECEIVED
+from electrum_blk.lnchannel import ChannelState, PeerState, Channel
+from electrum_blk.lnrouter import LNPathFinder, PathEdge, LNPathInconsistent
+from electrum_blk.channel_db import ChannelDB, InvalidGossipMsg
+from electrum_blk.lnworker import LNWallet, NoPathFound, SentHtlcInfo, PaySession, LNPeerManager
+from electrum_blk.lnmsg import encode_msg, decode_msg
+from electrum_blk import lnmsg
+from electrum_blk.logging import console_stderr_handler, Logger
+from electrum_blk.lnworker import PaymentInfo
+from electrum_blk.lnonion import OnionFailureCode, OnionRoutingFailure, OnionHopsDataSingle, OnionPacket
+from electrum_blk.lnutil import LOCAL, REMOTE, UpdateAddHtlc, RecvMPPResolution, RevocationStore
+from electrum_blk.invoices import PR_PAID, PR_UNPAID, Invoice, LN_EXPIRY_NEVER
+from electrum_blk.interface import GracefulDisconnect
+from electrum_blk.simple_config import SimpleConfig
+from electrum_blk.fee_policy import FeeTimeEstimates, FEE_ETA_TARGETS
+from electrum_blk.mpp_split import split_amount_normal
+from electrum_blk.wallet import Abstract_Wallet, Standard_Wallet
 
 from .test_lnchannel import create_test_channels
 from .test_bitcoin import needs_test_with_all_chacha20_implementations
@@ -903,7 +903,7 @@ class TestPeerDirect(TestPeer):
             async with OldTaskGroup() as group:
                 await group.spawn(p1._message_loop())
                 await group.spawn(p2._message_loop())
-                with self.assertLogs('electrum', level='INFO') as logs:
+                with self.assertLogs('electrum_blk', level='INFO') as logs:
                     async with OldTaskGroup() as group2:
                         await group2.spawn(p1.reestablish_channel(chan_AB))
                         await group2.spawn(p2.reestablish_channel(chan_BA))
@@ -1714,7 +1714,7 @@ class TestPeerDirect(TestPeer):
 
     @mock.patch('electrum.lnpeer.LN_P2P_NETWORK_TIMEOUT', 0.05)
     async def test_modern_shutdown_no_overlap(self):
-        with self.assertLogs('electrum', level='ERROR') as logs:
+        with self.assertLogs('electrum_blk', level='ERROR') as logs:
             with self.assertRaisesRegex(Exception, "closing_signed not received"):
                 await self._test_shutdown(
                     alice_fee=1,
@@ -2961,7 +2961,7 @@ class TestPeerForwarding(TestPeer):
                 lnaddr, pay_req = self.prepare_invoice(graph.workers['carol'], include_routing_hints=True)
                 await group.spawn(pay(lnaddr, pay_req))
 
-        with self.assertLogs('electrum', level='INFO') as logs:
+        with self.assertLogs('electrum_blk', level='INFO') as logs:
             with self.assertRaises(PaymentFailure):
                 await f()
             self.assertTrue(

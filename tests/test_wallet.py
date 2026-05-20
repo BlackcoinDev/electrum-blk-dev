@@ -10,20 +10,20 @@ import asyncio
 from unittest import mock
 from pathlib import Path
 
-from electrum.storage import WalletStorage
-from electrum.wallet_db import FINAL_SEED_VERSION
-from electrum.wallet import (Abstract_Wallet, Standard_Wallet, create_new_wallet,
+from electrum_blk.storage import WalletStorage
+from electrum_blk.wallet_db import FINAL_SEED_VERSION
+from electrum_blk.wallet import (Abstract_Wallet, Standard_Wallet, create_new_wallet,
                              Imported_Wallet, Wallet)
-from electrum.exchange_rate import ExchangeBase, FxThread
-from electrum.util import TxMinedInfo, InvalidPassword
-from electrum.bitcoin import COIN
-from electrum.wallet_db import WalletDB, JsonDB
-from electrum.simple_config import SimpleConfig
-from electrum import util, storage
-from electrum.daemon import Daemon
-from electrum.invoices import PR_UNPAID, PR_PAID, PR_UNCONFIRMED
-from electrum.transaction import tx_from_any
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED
+from electrum_blk.exchange_rate import ExchangeBase, FxThread
+from electrum_blk.util import TxMinedInfo, InvalidPassword
+from electrum_blk.bitcoin import COIN
+from electrum_blk.wallet_db import WalletDB, JsonDB
+from electrum_blk.simple_config import SimpleConfig
+from electrum_blk import util, storage
+from electrum_blk.daemon import Daemon
+from electrum_blk.invoices import PR_UNPAID, PR_PAID, PR_UNCONFIRMED
+from electrum_blk.transaction import tx_from_any
+from electrum_blk.address_synchronizer import TX_HEIGHT_UNCONFIRMED
 
 from . import ElectrumTestCase
 from . import restore_wallet_from_text__for_unittest

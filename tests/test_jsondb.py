@@ -10,7 +10,7 @@ from jsonpointer import JsonPointerException
 
 from . import ElectrumTestCase
 
-from electrum.json_db import JsonDB
+from electrum_blk.json_db import JsonDB
 
 class TestJsonpatch(ElectrumTestCase):
 

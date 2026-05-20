@@ -1,10 +1,10 @@
 import shutil
 import tempfile
 
-from electrum import SimpleConfig
-from electrum.gui.qml.qetypes import QEAmount
-from electrum.invoices import Invoice, LN_EXPIRY_NEVER
-from electrum.transaction import PartialTxOutput
+from electrum_blk import SimpleConfig
+from electrum_blk.gui.qml.qetypes import QEAmount
+from electrum_blk.invoices import Invoice, LN_EXPIRY_NEVER
+from electrum_blk.transaction import PartialTxOutput
 
 from .qt_util import QETestCase, QEventReceiver, qt_test
 

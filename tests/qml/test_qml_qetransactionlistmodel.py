@@ -1,7 +1,7 @@
 from datetime import datetime
 from unittest.mock import patch
 
-from electrum.gui.qml.qetransactionlistmodel import QETransactionListModel
+from electrum_blk.gui.qml.qetransactionlistmodel import QETransactionListModel
 
 from .. import ElectrumTestCase
 

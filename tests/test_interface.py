@@ -4,15 +4,15 @@ from functools import partial
 import aiorpcx
 from aiorpcx import RPCError
 
-from electrum.bitcoin import COIN, COINBASE_MATURITY
-from electrum.interface import ServerAddr, Interface, PaddedRSTransport
-from electrum import util, blockchain
-from electrum.util import OldTaskGroup, bfh
-from electrum.simple_config import SimpleConfig
-from electrum.transaction import Transaction, TxOutput
-from electrum.wallet import Abstract_Wallet
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED
-from electrum.blockchain import Blockchain
+from electrum_blk.bitcoin import COIN, COINBASE_MATURITY
+from electrum_blk.interface import ServerAddr, Interface, PaddedRSTransport
+from electrum_blk import util, blockchain
+from electrum_blk.util import OldTaskGroup, bfh
+from electrum_blk.simple_config import SimpleConfig
+from electrum_blk.transaction import Transaction, TxOutput
+from electrum_blk.wallet import Abstract_Wallet
+from electrum_blk.address_synchronizer import TX_HEIGHT_UNCONFIRMED
+from electrum_blk.blockchain import Blockchain
 
 from . import ElectrumTestCase
 from . import restore_wallet_from_text__for_unittest

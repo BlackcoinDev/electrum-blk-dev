@@ -6,13 +6,13 @@ from typing import Optional
 import asyncio
 import inspect
 
-import electrum
-from electrum.wallet_db import WalletDBUpgrader, WalletDB, WalletRequiresUpgrade, WalletRequiresSplit
-from electrum.wallet import Wallet
-from electrum import constants
-from electrum import util
-from electrum.plugin import Plugins
-from electrum.simple_config import SimpleConfig
+import electrum_blk
+from electrum_blk.wallet_db import WalletDBUpgrader, WalletDB, WalletRequiresUpgrade, WalletRequiresSplit
+from electrum_blk.wallet import Wallet
+from electrum_blk import constants
+from electrum_blk import util
+from electrum_blk.plugin import Plugins
+from electrum_blk.simple_config import SimpleConfig
 
 from . import as_testnet
 from .test_wallet import WalletTestCase

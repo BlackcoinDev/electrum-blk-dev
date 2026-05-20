@@ -3,13 +3,13 @@ import tempfile
 import unittest
 from typing import List
 
-from electrum import constants
-from electrum.simple_config import SimpleConfig
-from electrum import blockchain
-from electrum.interface import Interface, ServerAddr, ChainResolutionMode
-from electrum.crypto import sha256
-from electrum.util import OldTaskGroup
-from electrum import util
+from electrum_blk import constants
+from electrum_blk.simple_config import SimpleConfig
+from electrum_blk import blockchain
+from electrum_blk.interface import Interface, ServerAddr, ChainResolutionMode
+from electrum_blk.crypto import sha256
+from electrum_blk.util import OldTaskGroup
+from electrum_blk import util
 
 from . import ElectrumTestCase
 

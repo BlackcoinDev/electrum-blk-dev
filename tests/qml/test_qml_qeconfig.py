@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
-from electrum import SimpleConfig
-from electrum.gui.qml.qeconfig import QEConfig
+from electrum_blk import SimpleConfig
+from electrum_blk.gui.qml.qeconfig import QEConfig
 
 from .qt_util import QETestCase, qt_test
 

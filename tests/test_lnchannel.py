@@ -33,20 +33,20 @@ import dataclasses
 import time
 from typing import TYPE_CHECKING
 
-from electrum import bitcoin
-from electrum import lnpeer
-from electrum import lnchannel
-from electrum import lnutil
-from electrum.crypto import sha256
-from electrum.lnutil import (
+from electrum_blk import bitcoin
+from electrum_blk import lnpeer
+from electrum_blk import lnchannel
+from electrum_blk import lnutil
+from electrum_blk.crypto import sha256
+from electrum_blk.lnutil import (
     SENT, LOCAL, REMOTE, RECEIVED, UpdateAddHtlc, LnFeatures, secret_to_pubkey, ChannelType,
     effective_htlc_tx_weight, LocalConfig, RemoteConfig, OnlyPubkeyKeypair, ZEROCONF_TIMEOUT,
     CHANNEL_OPENING_TIMEOUT_SEC,
 )
-from electrum.logging import console_stderr_handler
-from electrum.lnchannel import ChannelState, Channel
-from electrum.json_db import StoredDict
-from electrum.coinchooser import PRNG
+from electrum_blk.logging import console_stderr_handler
+from electrum_blk.lnchannel import ChannelState, Channel
+from electrum_blk.json_db import StoredDict
+from electrum_blk.coinchooser import PRNG
 
 from . import ElectrumTestCase
 
@@ -412,7 +412,7 @@ class TestChannel(ElectrumTestCase):
         self.assertEqual(bob_channel.included_htlcs(REMOTE, RECEIVED, 0), [])
         self.assertEqual(bob_channel.included_htlcs(REMOTE, RECEIVED, 1), [])
 
-        from electrum.lnutil import extract_ctn_from_tx_and_chan
+        from electrum_blk.lnutil import extract_ctn_from_tx_and_chan
         tx0 = str(alice_channel.force_close_tx())
         self.assertEqual(alice_channel.get_oldest_unrevoked_ctn(LOCAL), 0)
         self.assertEqual(extract_ctn_from_tx_and_chan(alice_channel.force_close_tx(), alice_channel), 0)

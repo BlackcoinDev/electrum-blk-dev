@@ -4,15 +4,15 @@ import os
 from typing import Optional, Iterable
 from unittest import mock
 
-from electrum.commands import Commands
-from electrum.daemon import Daemon
-from electrum.simple_config import SimpleConfig
-from electrum.wallet import Abstract_Wallet
-from electrum.lnworker import LNWallet, LNPeerManager
-from electrum.lnwatcher import LNWatcher
-from electrum import util
-from electrum.utils.memory_leak import count_objects_in_memory
-from electrum import constants
+from electrum_blk.commands import Commands
+from electrum_blk.daemon import Daemon
+from electrum_blk.simple_config import SimpleConfig
+from electrum_blk.wallet import Abstract_Wallet
+from electrum_blk.lnworker import LNWallet, LNPeerManager
+from electrum_blk.lnwatcher import LNWatcher
+from electrum_blk import util
+from electrum_blk.utils.memory_leak import count_objects_in_memory
+from electrum_blk import constants
 
 from . import ElectrumTestCase, as_testnet, restore_wallet_from_text__for_unittest
 

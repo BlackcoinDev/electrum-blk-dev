@@ -2,14 +2,14 @@ import os
 import asyncio
 from unittest.mock import patch
 
-from electrum import SimpleConfig
-from electrum.invoices import Invoice
-from electrum.payment_identifier import (
+from electrum_blk import SimpleConfig
+from electrum_blk.invoices import Invoice
+from electrum_blk.payment_identifier import (
     maybe_extract_bech32_lightning_payment_identifier, PaymentIdentifier, PaymentIdentifierType,
     PaymentIdentifierState, invoice_from_payment_identifier, remove_uri_prefix,
 )
-from electrum.lnurl import LNURL6Data, LNURL3Data, LNURLError
-from electrum.transaction import PartialTxOutput
+from electrum_blk.lnurl import LNURL6Data, LNURL3Data, LNURLError
+from electrum_blk.transaction import PartialTxOutput
 
 from . import ElectrumTestCase
 from . import restore_wallet_from_text__for_unittest

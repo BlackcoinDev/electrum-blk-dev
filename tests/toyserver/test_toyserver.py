@@ -1,12 +1,12 @@
 import electrum_ecc as ecc
 
-from electrum import bitcoin
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED
-from electrum.bitcoin import COIN, construct_script, opcodes
-from electrum.fee_policy import FixedFeePolicy
-from electrum.simple_config import SimpleConfig
-from electrum.transaction import PartialTxInput, PartialTxOutput, TxOutput, Transaction
-from electrum.wallet import Abstract_Wallet
+from electrum_blk import bitcoin
+from electrum_blk.address_synchronizer import TX_HEIGHT_UNCONFIRMED
+from electrum_blk.bitcoin import COIN, construct_script, opcodes
+from electrum_blk.fee_policy import FixedFeePolicy
+from electrum_blk.simple_config import SimpleConfig
+from electrum_blk.transaction import PartialTxInput, PartialTxOutput, TxOutput, Transaction
+from electrum_blk.wallet import Abstract_Wallet
 
 from .. import ElectrumTestCase
 from .. import restore_wallet_from_text__for_unittest

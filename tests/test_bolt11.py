@@ -4,12 +4,12 @@ from binascii import unhexlify, hexlify
 import pprint
 import unittest
 
-from electrum.bolt11 import shorten_amount, unshorten_amount, BOLT11Addr, encode_bolt11_invoice, decode_bolt11_invoice
-from electrum.segwit_addr import bech32_encode, bech32_decode
-from electrum import segwit_addr
-from electrum.lnutil import UnknownEvenFeatureBits, LnFeatures, IncompatibleLightningFeatures
-from electrum import constants
-from electrum.util import bfh, ShortID
+from electrum_blk.bolt11 import shorten_amount, unshorten_amount, BOLT11Addr, encode_bolt11_invoice, decode_bolt11_invoice
+from electrum_blk.segwit_addr import bech32_encode, bech32_decode
+from electrum_blk import segwit_addr
+from electrum_blk.lnutil import UnknownEvenFeatureBits, LnFeatures, IncompatibleLightningFeatures
+from electrum_blk import constants
+from electrum_blk.util import bfh, ShortID
 
 from . import ElectrumTestCase
 

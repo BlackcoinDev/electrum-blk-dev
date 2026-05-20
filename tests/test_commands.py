@@ -8,21 +8,21 @@ from decimal import Decimal
 from os import urandom
 import shutil
 
-import electrum
-from electrum.commands import Commands, eval_bool
-from electrum import storage, wallet
-from electrum.lnutil import RECEIVED
-from electrum.lnworker import RecvMPPResolution
-from electrum.wallet import Abstract_Wallet
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED
-from electrum.simple_config import SimpleConfig
-from electrum.submarine_swaps import SwapOffer, SwapFees, NostrTransport
-from electrum.transaction import Transaction, TxOutput, tx_from_any
-from electrum.util import UserFacingException, NotEnoughFunds
-from electrum.crypto import sha256
-from electrum.bolt11 import decode_bolt11_invoice
-from electrum.daemon import Daemon
-from electrum import json_db
+import electrum_blk
+from electrum_blk.commands import Commands, eval_bool
+from electrum_blk import storage, wallet
+from electrum_blk.lnutil import RECEIVED
+from electrum_blk.lnworker import RecvMPPResolution
+from electrum_blk.wallet import Abstract_Wallet
+from electrum_blk.address_synchronizer import TX_HEIGHT_UNCONFIRMED
+from electrum_blk.simple_config import SimpleConfig
+from electrum_blk.submarine_swaps import SwapOffer, SwapFees, NostrTransport
+from electrum_blk.transaction import Transaction, TxOutput, tx_from_any
+from electrum_blk.util import UserFacingException, NotEnoughFunds
+from electrum_blk.crypto import sha256
+from electrum_blk.bolt11 import decode_bolt11_invoice
+from electrum_blk.daemon import Daemon
+from electrum_blk import json_db
 
 from . import ElectrumTestCase
 from . import restore_wallet_from_text__for_unittest

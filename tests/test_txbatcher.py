@@ -5,16 +5,16 @@ import dataclasses
 
 from aiorpcx import timeout_after
 
-import electrum.fee_policy
-from electrum import keystore, wallet, lnutil
-from electrum import SimpleConfig
-from electrum import util
-from electrum.address_synchronizer import TX_HEIGHT_UNCONFIRMED
-from electrum.transaction import Transaction, PartialTxInput, PartialTxOutput, TxOutpoint
-from electrum.logging import console_stderr_handler, Logger
-from electrum.submarine_swaps import SwapManager, SwapData
-from electrum.lnsweep import SweepInfo, sweep_ctx_anchor
-from electrum.fee_policy import FeeTimeEstimates
+import electrum_blk.fee_policy
+from electrum_blk import keystore, wallet, lnutil
+from electrum_blk import SimpleConfig
+from electrum_blk import util
+from electrum_blk.address_synchronizer import TX_HEIGHT_UNCONFIRMED
+from electrum_blk.transaction import Transaction, PartialTxInput, PartialTxOutput, TxOutpoint
+from electrum_blk.logging import console_stderr_handler, Logger
+from electrum_blk.submarine_swaps import SwapManager, SwapData
+from electrum_blk.lnsweep import SweepInfo, sweep_ctx_anchor
+from electrum_blk.fee_policy import FeeTimeEstimates
 
 from . import ElectrumTestCase
 from .test_wallet_vertical import WalletIntegrityHelper, read_test_vector

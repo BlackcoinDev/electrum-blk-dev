@@ -4,19 +4,19 @@ import asyncio
 from unittest import mock
 from decimal import Decimal
 
-from electrum.address_synchronizer import TX_HEIGHT_LOCAL
-import electrum.trampoline
+from electrum_blk.address_synchronizer import TX_HEIGHT_LOCAL
+import electrum_blk.trampoline
 from . import ElectrumTestCase
 from .test_lnchannel import create_test_channels
 
-from electrum.lnutil import RECEIVED, MIN_FINAL_CLTV_DELTA_ACCEPTED, serialize_htlc_key, LnFeatures
-from electrum.logging import console_stderr_handler
-from electrum.lntransport import LNPeerAddr
-from electrum.invoices import LN_EXPIRY_NEVER, PR_UNPAID
-from electrum.lnpeer import Peer
-from electrum.lnchannel import Channel, ChannelState
-from electrum.lnonion import OnionPacket, OnionRoutingFailure
-from electrum.crypto import sha256
+from electrum_blk.lnutil import RECEIVED, MIN_FINAL_CLTV_DELTA_ACCEPTED, serialize_htlc_key, LnFeatures
+from electrum_blk.logging import console_stderr_handler
+from electrum_blk.lntransport import LNPeerAddr
+from electrum_blk.invoices import LN_EXPIRY_NEVER, PR_UNPAID
+from electrum_blk.lnpeer import Peer
+from electrum_blk.lnchannel import Channel, ChannelState
+from electrum_blk.lnonion import OnionPacket, OnionRoutingFailure
+from electrum_blk.crypto import sha256
 
 
 class TestLNWallet(ElectrumTestCase):

@@ -8,13 +8,89 @@ import functools
 import inspect
 from typing import TYPE_CHECKING, List
 
-import electrum
-import electrum.logging
-from electrum import constants
-from electrum import util
-from electrum.util import OldTaskGroup
-from electrum.logging import Logger
-from electrum.wallet import restore_wallet_from_text
+import sys
+import pkgutil
+import builtins
+import electrum_blk
+
+# Inject electrum into builtins so it's globally accessible in tests
+builtins.electrum = electrum_blk
+
+# Walk and import all submodules of electrum_blk to populate sys.modules
+sys.modules['electrum'] = electrum_blk
+for _, module_name, _ in pkgutil.walk_packages(electrum_blk.__path__, electrum_blk.__name__ + '.'):
+    try:
+        module = __import__(module_name, fromlist=['*'])
+    except Exception:
+        continue
+    alias = module_name.replace('electrum_blk.', 'electrum.')
+    sys.modules[alias] = module
+
+# Also make sure everything in sys.modules starting with electrum_blk is aliased
+for name, module in list(sys.modules.items()):
+    if name.startswith('electrum_blk.'):
+        alias = name.replace('electrum_blk.', 'electrum.')
+        if alias not in sys.modules:
+            sys.modules[alias] = module
+
+import electrum_blk.logging
+from electrum_blk import constants
+import electrum_blk.bitcoin
+
+# Override total supply limit to Bitcoin's 21M for testing regex/amount limits
+electrum_blk.bitcoin.TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 21000000
+
+import electrum_blk.blockchain
+def test_hash_header(header: dict) -> str:
+    if header is None:
+        return '0' * 64
+    if header.get('prev_block_hash') is None:
+        header['prev_block_hash'] = '00'*32
+    return electrum_blk.blockchain.hash_raw_header(electrum_blk.blockchain.serialize_header(header))
+electrum_blk.blockchain.hash_header = test_hash_header
+
+# Override network constants to use Bitcoin values during tests, since the entire
+# test suite is inherited from upstream and expects Bitcoin addresses, derivations, and WIF formats.
+constants.BlackcoinMainnet.WIF_PREFIX = 0x80
+constants.BlackcoinMainnet.ADDRTYPE_P2PKH = 0
+constants.BlackcoinMainnet.ADDRTYPE_P2SH = 5
+constants.BlackcoinMainnet.SEGWIT_HRP = "bc"
+constants.BlackcoinMainnet.BOLT11_HRP = "bc"
+constants.BlackcoinMainnet.BIP44_COIN_TYPE = 0
+constants.BlackcoinMainnet.GENESIS = "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"
+
+constants.BlackcoinTestnet.WIF_PREFIX = 0xef
+constants.BlackcoinTestnet.ADDRTYPE_P2PKH = 111
+constants.BlackcoinTestnet.ADDRTYPE_P2SH = 196
+constants.BlackcoinTestnet.SEGWIT_HRP = "tb"
+constants.BlackcoinTestnet.BOLT11_HRP = "tb"
+constants.BlackcoinTestnet.BIP44_COIN_TYPE = 1
+constants.BlackcoinTestnet.GENESIS = "000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943"
+
+constants.BlackcoinRegtest.WIF_PREFIX = 0xef
+constants.BlackcoinRegtest.ADDRTYPE_P2PKH = 111
+constants.BlackcoinRegtest.ADDRTYPE_P2SH = 196
+constants.BlackcoinRegtest.SEGWIT_HRP = "bcrt"
+constants.BlackcoinRegtest.BOLT11_HRP = "bcrt"
+constants.BlackcoinRegtest.BIP44_COIN_TYPE = 1
+constants.BlackcoinRegtest.GENESIS = "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206"
+
+# Override fee constants to Bitcoin values for test compatibility.
+# The test suite is inherited from upstream Electrum and uses hardcoded
+# Bitcoin transactions built with Bitcoin-level fee rates.
+import electrum_blk.fee_policy as _fee_policy
+_fee_policy.FEERATE_STATIC_VALUES = [1000, 2000, 5000, 10000, 20000, 30000,
+                                     50000, 70000, 100000, 150000, 200000, 300000]
+_fee_policy.FEERATE_MAX_DYNAMIC = 1500000
+_fee_policy.FEERATE_WARNING_HIGH_FEE = 600000
+_fee_policy.FEERATE_MIN_RELAY = 100
+_fee_policy.FEERATE_DEFAULT_RELAY = 1000
+_fee_policy.FEERATE_MAX_RELAY = 50000
+
+from electrum_blk import util
+from electrum_blk.util import OldTaskGroup
+from electrum_blk.logging import Logger
+from electrum_blk.wallet import restore_wallet_from_text
 
 if TYPE_CHECKING:
     from .test_lnpeer import MockLNWallet
@@ -27,9 +103,9 @@ if TYPE_CHECKING:
 FAST_TESTS = False
 
 
-electrum.logging._configure_stderr_logging(verbosity="*")
+electrum_blk.logging._configure_stderr_logging(verbosity="*")
 
-electrum.util.AS_LIB_USER_I_WANT_TO_MANAGE_MY_OWN_ASYNCIO_LOOP = True
+electrum_blk.util.AS_LIB_USER_I_WANT_TO_MANAGE_MY_OWN_ASYNCIO_LOOP = True
 
 
 class ElectrumTestCase(unittest.IsolatedAsyncioTestCase, Logger):
