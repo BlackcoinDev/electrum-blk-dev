@@ -1340,11 +1340,11 @@ class Interface(Logger):
             if ip_addr.is_loopback:  # localhost is exempt
                 return ''
             if ip_addr.version == 4:
-                slash16 = IPv4Network(ip_addr).supernet(prefixlen_diff=32-16)
-                return str(slash16)
+                slash32 = IPv4Network(ip_addr).supernet(prefixlen_diff=32-32)
+                return str(slash32)
             elif ip_addr.version == 6:
-                slash48 = IPv6Network(ip_addr).supernet(prefixlen_diff=128-48)
-                return str(slash48)
+                slash128 = IPv6Network(ip_addr).supernet(prefixlen_diff=128-128)
+                return str(slash128)
             return ''
 
         if not self._ipaddr_bucket:
