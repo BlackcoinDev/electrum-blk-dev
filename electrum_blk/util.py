@@ -97,7 +97,7 @@ base_units = {'BLK':8, 'mBLK':5, 'bits':2, 'sat':0}
 base_units_inverse = inv_dict(base_units)
 base_units_list = ['BLK', 'mBLK', 'bits', 'sat']  # list(dict) does not guarantee order
 
-DECIMAL_POINT_DEFAULT = 5  # mBTC
+DECIMAL_POINT_DEFAULT = 8  # BLK
 
 
 class UnknownBaseUnit(Exception): pass
