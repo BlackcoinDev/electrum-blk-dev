@@ -178,8 +178,7 @@ class ElectrumWindow(QMainWindow, MessageBoxMixin, Logger, QtEventListener):
         assert wallet, "no wallet"
         self.wallet = wallet
         self._protected_requires_password = self.wallet.has_keystore_encryption
-        if wallet.has_lightning():
-            pass  # channels tab hidden by default (see GUI_QT_SHOW_TAB_CHANNELS default=False in simple_config.py)
+        # channels tab hidden by default (see GUI_QT_SHOW_TAB_CHANNELS default=False in simple_config.py)
 
         Exception_Hook.maybe_setup(config=self.config, wallet=self.wallet)
 

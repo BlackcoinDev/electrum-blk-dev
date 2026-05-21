@@ -1335,16 +1335,12 @@ class Interface(Logger):
                 ip_addr = ip_address(self.ip_addr())  # type: Union[IPv4Address, IPv6Address]
             except ValueError:
                 return ''
-            if not ip_addr:
-                return ''
             if ip_addr.is_loopback:  # localhost is exempt
                 return ''
             if ip_addr.version == 4:
-                slash32 = IPv4Network(ip_addr).supernet(prefixlen_diff=32-32)
-                return str(slash32)
+                return str(IPv4Network(ip_addr).supernet(prefixlen_diff=0))
             elif ip_addr.version == 6:
-                slash128 = IPv6Network(ip_addr).supernet(prefixlen_diff=128-128)
-                return str(slash128)
+                return str(IPv6Network(ip_addr).supernet(prefixlen_diff=0))
             return ''
 
         if not self._ipaddr_bucket:

@@ -97,14 +97,14 @@ base_units = {'BLK':8, 'mBLK':5, 'bits':2, 'sat':0}
 base_units_inverse = inv_dict(base_units)
 base_units_list = ['BLK', 'mBLK', 'bits', 'sat']  # list(dict) does not guarantee order
 
-DECIMAL_POINT_DEFAULT = 8  # BLK
+DECIMAL_POINT_DEFAULT = 8
 
 
 class UnknownBaseUnit(Exception): pass
 
 
 def decimal_point_to_base_unit_name(dp: int) -> str:
-    # e.g. 8 -> "BTC"
+    # e.g. 8 -> "BLK"
     try:
         return base_units_inverse[dp]
     except KeyError:
