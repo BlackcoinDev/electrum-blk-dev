@@ -1691,7 +1691,10 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         if label := self._default_labels.get(tx_hash):
             return label
         labels = []
-        tx = self.adb.get_transaction(tx_hash)
+        try:
+            tx = self.adb.get_transaction(tx_hash)
+        except Exception:
+            return ""
         if tx:
             for txin in tx.inputs():
                 outpoint = txin.prevout.to_str()
