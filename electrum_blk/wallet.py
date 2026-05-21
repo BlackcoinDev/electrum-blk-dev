@@ -1693,7 +1693,8 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         labels = []
         try:
             tx = self.adb.get_transaction(tx_hash)
-        except Exception:
+        except Exception as e:
+            self.logger.warning(f"failed to get transaction {tx_hash}: {e}")
             return ""
         if tx:
             for txin in tx.inputs():
