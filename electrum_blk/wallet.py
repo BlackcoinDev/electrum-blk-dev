@@ -1039,8 +1039,16 @@ class Abstract_Wallet(ABC, Logger, EventListener):
             result = {}   # type: Dict[str, Tuple[List[str], List[str]]]
             parents = []  # type: List[str]
             uncles = []   # type: List[str]
-            tx = self.adb.get_transaction(txid)
-            assert tx, f"cannot find {txid} in db"
+            try:
+                tx = self.adb.get_transaction(txid)
+            except Exception as e:
+                self.logger.warning(f"failed to get transaction {txid}: {e}")
+                self._tx_parents_cache[txid] = result
+                return result
+            if not tx:
+                self.logger.warning(f"cannot find {txid} in db")
+                self._tx_parents_cache[txid] = result
+                return result
             for i, txin in enumerate(tx.inputs()):
                 _txid = txin.prevout.txid.hex()
                 parents.append(_txid)
@@ -1695,6 +1703,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
             tx = self.adb.get_transaction(tx_hash)
         except Exception as e:
             self.logger.warning(f"failed to get transaction {tx_hash}: {e}")
+            self._default_labels[tx_hash] = ""
             return ""
         if tx:
             for txin in tx.inputs():
