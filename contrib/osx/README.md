@@ -6,7 +6,7 @@ Building macOS binaries
 
 - _Minimum supported target system (i.e. what end-users need): macOS 11_
 
-This guide explains how to build Electrum binaries for macOS systems.
+This guide explains how to build Electrum-BLK binaries for macOS systems.
 
 
 ## Building the binary
@@ -43,8 +43,8 @@ We currently build the release binaries on macOS 11.7.10, and these seem to run 
 - We recommend creating a VM with a macOS guest, e.g. using VirtualBox,
   and building there.
 - The guest should run macOS 11.7.10 (that specific version).
-- The unix username should be `vagrant`, and `electrum` should be cloned directly
-  to the user's home dir: `/Users/vagrant/electrum`.
+- The unix username should be `vagrant`, and `electrum-blk` should be cloned directly
+  to the user's home dir: `/Users/vagrant/electrum-blk`.
 - Builders need to use the same version of Xcode; and note that
   full Xcode and Xcode commandline tools differ!
   We use the Xcode CLI tools as installed by brew. (version 13.2)
@@ -76,7 +76,7 @@ We currently build the release binaries on macOS 11.7.10, and these seem to run 
 - Installing extraneous brew packages can result in build differences.
   For example, pyinstaller seems to pick up and bundle brew-installed `libffi`.
   So having a dedicated "electrum binary builder macOS VM" is recommended.
-- Make sure that you are building from a fresh clone of electrum
+- Make sure that you are building from a fresh clone of electrum-blk
   (or run e.g. `git clean -ffxd` to rm all local changes).
 
 
@@ -87,12 +87,12 @@ Install [`brew`](https://brew.sh/).
 Let brew install the Xcode CLI tools.
 
 
-#### 2. Build Electrum
+#### 2. Build Electrum-BLK
 
-    cd electrum
+    cd electrum_blk
     ./contrib/osx/make_osx.sh
 
-This creates both a folder named Electrum.app and the .dmg file (both unsigned).
+This creates both a folder named Electrum-BLK.app and the .dmg file (both unsigned).
 
 ##### 2.1. For release binaries, here be dragons
 
@@ -117,7 +117,7 @@ repository.
 2. Use the provided `compare_dmg` script to compare the binary you built with
    the official release binary.
     ```
-    $ ./contrib/osx/compare_dmg dist/electrum-*.dmg electrum_dmg_official_release.dmg
+    $ ./contrib/osx/compare_dmg dist/electrum-blk-*.dmg electrum-blk_dmg_official_release.dmg
     ```
    The `compare_dmg` script is mostly only needed as the official release binary is
    codesigned and notarized. Otherwise, the built `.app` bundles should be byte-identical.

@@ -1,13 +1,13 @@
 [app]
 
 # (str) Title of your application
-title = Electrum
+title = Electrum-BLK
 
 # (str) Package name
-package.name = Electrum
+package.name = ElectrumBLK
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.electrum
+package.domain = org.blackcoin
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -27,25 +27,25 @@ source.exclude_dirs =
     env,
     tests,
     fastlane,
-    electrum/www,
-    electrum/scripts,
-    electrum/utils,
-    electrum/gui/qt,
-    electrum/plugins/audio_modem,
-    electrum/plugins/bitbox02,
-    electrum/plugins/coldcard,
-    electrum/plugins/digitalbitbox,
-    electrum/plugins/jade,
-    electrum/plugins/keepkey,
-    electrum/plugins/ledger,
-    electrum/plugins/nwc,
-    electrum/plugins/payserver,
-    electrum/plugins/revealer,
-    electrum/plugins/safe_t,
-    electrum/plugins/swapserver,
-    electrum/plugins/timelock_recovery,
-    electrum/plugins/trezor,
-    electrum/plugins/watchtower,
+    electrum_blk/www,
+    electrum_blk/scripts,
+    electrum_blk/utils,
+    electrum_blk/gui/qt,
+    electrum_blk/plugins/audio_modem,
+    electrum_blk/plugins/bitbox02,
+    electrum_blk/plugins/coldcard,
+    electrum_blk/plugins/digitalbitbox,
+    electrum_blk/plugins/jade,
+    electrum_blk/plugins/keepkey,
+    electrum_blk/plugins/ledger,
+    electrum_blk/plugins/nwc,
+    electrum_blk/plugins/payserver,
+    electrum_blk/plugins/revealer,
+    electrum_blk/plugins/safe_t,
+    electrum_blk/plugins/swapserver,
+    electrum_blk/plugins/timelock_recovery,
+    electrum_blk/plugins/trezor,
+    electrum_blk/plugins/watchtower,
     packages/qdarkstyle,
     packages/qtpy,
     packages/bin,
@@ -61,7 +61,7 @@ source.exclude_patterns = Makefile,setup*,
 
 # (str) Application versioning (method 1)
 version.regex = ELECTRUM_VERSION = '(.*)'
-version.filename = %(source.dir)s/electrum/version.py
+version.filename = %(source.dir)s/electrum_blk/version.py
 
 # (str) Application versioning (method 2)
 #version = 1.9.8
@@ -82,12 +82,12 @@ requirements =
     libzbar
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/electrum/gui/icons/electrum_presplash.png
+presplash.filename = %(source.dir)s/electrum_blk/gui/icons/electrum_presplash.png
 
 # (str) Icon of the application
 icon.filename = %(source.dir)s/electrum/gui/icons/android_electrum_icon_legacy.png
-icon.adaptive_foreground.filename = %(source.dir)s/electrum/gui/icons/android_electrum_icon_foreground.png
-icon.adaptive_background.filename = %(source.dir)s/electrum/gui/icons/android_electrum_icon_background.png
+icon.adaptive_foreground.filename = %(source.dir)s/electrum_blk/gui/icons/android_electrum_icon_foreground.png
+icon.adaptive_background.filename = %(source.dir)s/electrum_blk/gui/icons/android_electrum_icon_background.png
 
 # (str) Supported orientation (one of landscape, portrait or all)
 orientation = portrait
@@ -153,7 +153,7 @@ android.accept_sdk_license = True
 #android.add_jars = foo.jar,bar.jar,path/to/more/*.jar
 #android.add_jars = lib/android/zbar.jar
 
-android.add_jars = .buildozer/android/platform/*/build/libs_collections/Electrum/jar/*.jar
+android.add_jars = .buildozer/android/platform/*/build/libs_collections/ElectrumBLK/jar/*.jar
 
 
 android.add_aars =
@@ -171,7 +171,7 @@ android.gradle_dependencies =
     androidx.core:core:1.16.0,
     org.jetbrains.kotlin:kotlin-stdlib:1.8.22
 
-android.add_activities = org.electrum.qr.SimpleScannerActivity, org.electrum.biometry.BiometricActivity
+android.add_activities = org.blackcoin.qr.SimpleScannerActivity, org.blackcoin.biometry.BiometricActivity
 
 # (list) Put these files or directories in the apk res directory.
 # The option may be used in three ways, the value may contain one or zero ':'
@@ -183,7 +183,7 @@ android.add_activities = org.electrum.qr.SimpleScannerActivity, org.electrum.bio
 # 3) A directory, here 'legal_resources' must contain one or more directories,
 # each of a resource kind:  drawable, xml, etc...
 # android.add_resources = legal_resources
-android.add_resources = electrum/gui/qml/android_res/layout:layout
+android.add_resources = electrum_blk/gui/qml/android_res/layout:layout
 
 # (str) python-for-android branch to use, if not master, useful to try
 # not yet merged features.

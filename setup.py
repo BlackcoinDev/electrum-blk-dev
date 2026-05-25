@@ -65,7 +65,7 @@ setup(
               + [('electrum_blk.'+pkg) for pkg in
                  find_packages('electrum_blk', exclude=["tests"])]),
     package_dir={
-        'electrum_blk': 'electrum_blk'
+        'electrum-blk': 'electrum_blk'
     },
     # Note: MANIFEST.in lists what gets included in the tar.gz, and the
     # package_data kwarg lists what gets put in site-packages when pip installing the tar.gz.
@@ -73,10 +73,10 @@ setup(
     include_package_data=True,
     scripts=['electrum_blk/electrum-blk'],
     data_files=data_files,
-    description="Lightweight Bitcoin Wallet",
+    description="Lightweight Blackcoin Wallet",
     author="Thomas Voegtlin",
     author_email="thomasv@electrum.org",
     license="MIT Licence",
-    url="https://electrum.org",
-    long_description="""Lightweight Bitcoin Wallet""",
+    url="https://blackcoin.org",
+    long_description="""Lightweight Blackcoin Wallet""",
 )

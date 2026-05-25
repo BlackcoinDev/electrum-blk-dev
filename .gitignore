@@ -5,7 +5,7 @@
 build/
 dist/
 *.egg/
-Electrum.egg-info/
+Electrum_BLK.egg-info/
 .devlocaltmp/
 *_trial_temp
 packages
@@ -17,7 +17,7 @@ bin/
 .idea
 .mypy_cache
 .vscode
-electrum_data
+electrum-blk_data
 .DS_Store
 contrib/trigger_website
 contrib/trigger_binaries
@@ -46,13 +46,12 @@ contrib/libusb/
 contrib/.venv_make_packages/
 
 # shared objects
-electrum/*.so
-electrum/*.so.*
-electrum/*.dll
-electrum/*.dylib
+electrum_blk/*.so
+electrum_blk/*.so.*
+electrum_blk/*.dll
+electrum_blk/*.dylib
 contrib/osx/*.dylib
 
 # Blackcoin specifics
-Electrum_BLK.egg-info/
 /.omo/
 AGENTS.md

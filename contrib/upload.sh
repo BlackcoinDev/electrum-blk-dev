@@ -11,7 +11,7 @@ PROJECT_ROOT="$(dirname "$(readlink -e "$0")")/.."
 CONTRIB="$PROJECT_ROOT/contrib"
 
 if [ -z "$SSHUSER" ]; then
-    SSHUSER=thomasv
+    SSHUSER=blackcoindev
 fi
 
 cd "$PROJECT_ROOT"

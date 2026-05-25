@@ -7,7 +7,7 @@ CONTRIB="$PROJECT_ROOT/contrib"
 CONTRIB_APPIMAGE="$CONTRIB/build-linux/appimage"
 DISTDIR="$PROJECT_ROOT/dist"
 BUILDDIR="$CONTRIB_APPIMAGE/build/appimage"
-APPDIR="$BUILDDIR/electrum.AppDir"
+APPDIR="$BUILDDIR/electrum-blk.AppDir"
 CACHEDIR="$CONTRIB_APPIMAGE/.cache/appimage"
 TYPE2_RUNTIME_REPO_DIR="$CACHEDIR/type2-runtime"
 export DLL_TARGET_DIR="$CACHEDIR/dlls"
@@ -25,7 +25,7 @@ PY_VER_MAJOR="3.12"  # as it appears in fs paths
 PKG2APPIMAGE_COMMIT="a9c85b7e61a3a883f4a35c41c5decb5af88b6b5d"
 
 VERSION=$(git describe --tags --dirty --always)
-APPIMAGE="$DISTDIR/electrum-$VERSION-x86_64.AppImage"
+APPIMAGE="$DISTDIR/electrum-blk-$VERSION-x86_64.AppImage"
 
 rm -rf "$BUILDDIR"
 mkdir -p "$APPDIR" "$CACHEDIR" "$PIP_CACHE_DIR" "$DISTDIR" "$DLL_TARGET_DIR"
@@ -114,11 +114,11 @@ info "installing pip."
 break_legacy_easy_install
 
 
-info "preparing electrum-locale."
+info "preparing electrum-blk-locale."
 (
     "$CONTRIB/locale/build_cleanlocale.sh"
     # we want the binary to have only compiled (.mo) locale files; not source (.po) files
-    rm -r "$PROJECT_ROOT/electrum/locale/locale"/*/electrum.po
+    rm -r "$PROJECT_ROOT/electrum_blk/locale/locale"/*/electrum.po
 )
 
 
@@ -159,8 +159,8 @@ info "installing electrum and its dependencies."
 
 
 info "desktop integration."
-cp "$PROJECT_ROOT/electrum.desktop" "$APPDIR/electrum.desktop"
-cp "$PROJECT_ROOT/electrum/gui/icons/electrum.png" "$APPDIR/electrum.png"
+cp "$PROJECT_ROOT/electrum-blk.desktop" "$APPDIR/electrum-blk.desktop"
+cp "$PROJECT_ROOT/electrum_blk/gui/icons/electrum.png" "$APPDIR/electrum.png"
 
 
 # add launcher

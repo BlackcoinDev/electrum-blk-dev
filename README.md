@@ -1,10 +1,11 @@
-# Electrum - Lightweight Bitcoin client
+# Electrum-BLK - Lightweight Blackcoin client
 
 ```
 Licence: MIT Licence
 Author: Thomas Voegtlin
+BLK Port Maintainers: lateminer & BlackcoinDev
 Language: Python (>= 3.10)
-Homepage: https://electrum.org/
+Homepage: https://blackcoin.org/
 ```
 
 [![Build Status](https://api.cirrus-ci.com/github/spesmilo/electrum.svg?branch=master)](https://cirrus-ci.com/github/spesmilo/electrum)
@@ -14,10 +15,10 @@ Homepage: https://electrum.org/
 
 ## Getting started
 
-_(If you've come here looking to simply run Electrum,
-[you may download it here](https://electrum.org/#download).)_
+_(If you've come here looking to simply run Electrum-BLK,
+[you may download it here](https://blackcoin.org/#downloads).)_
 
-Electrum itself is pure Python, and so are most of the required dependencies,
+Electrum-BLK itself is pure Python, and so are most of the required dependencies,
 but not everything. The following sections describe how to run from source, but here
 is a TL;DR:
 
@@ -71,9 +72,9 @@ If you would like hardware wallet support,
 ### Running from tar.gz
 
 If you downloaded the official package (tar.gz), you can run
-Electrum from its root directory without installing it on your
+Electrum-BLK from its root directory without installing it on your
 system; all the pure python dependencies are included in the 'packages'
-directory. To run Electrum from its root directory, just do:
+directory. To run Electrum-BLK from its root directory, just do:
 ```
 $ ./run_electrum
 ```
@@ -85,8 +86,8 @@ $ python3 -m pip install --user .
 ```
 
 This will download and install the Python dependencies used by
-Electrum instead of using the 'packages' directory.
-It will also place an executable named `electrum` in `~/.local/bin`,
+Electrum-BLK instead of using the 'packages' directory.
+It will also place an executable named `electrum-blk` in `~/.local/bin`,
 so make sure that is on your `PATH` variable.
 
 
@@ -97,8 +98,8 @@ and [for macOS](contrib/osx/README_macos.md))_
 
 Check out the code from GitHub:
 ```
-$ git clone https://github.com/spesmilo/electrum.git
-$ cd electrum
+$ git clone https://github.com/CoinBlack/electrum-blk.git
+$ cd electrum-blk
 $ git submodule update --init
 ```
 
@@ -110,10 +111,10 @@ $ python3 -m pip install --user -e .
 Create translations (optional):
 ```
 $ sudo apt-get install gettext
-$ ./contrib/locale/build_locale.sh electrum/locale/locale electrum/locale/locale
+$ ./contrib/locale/build_locale.sh electrum_blk/locale/locale electrum_blk/locale/locale
 ```
 
-Finally, to start Electrum:
+Finally, to start Electrum-BLK:
 ```
 $ ./run_electrum
 ```
@@ -146,11 +147,9 @@ Any help testing the software, reporting or fixing bugs, reviewing pull requests
 and recent changes, writing tests, or helping with outstanding issues is very welcome.
 Implementing new features, or improving/refactoring the codebase, is of course
 also welcome, but to avoid wasted effort, especially for larger changes,
-we encourage discussing these on the issue tracker or IRC first.
+we encourage discussing these in Discord first.
 
-Besides [GitHub](https://github.com/spesmilo/electrum),
-most communication about Electrum development happens on IRC, in the
-`#electrum` channel on Libera Chat. The easiest way to participate on IRC is
-with the web client, [web.libera.chat](https://web.libera.chat/#electrum).
+Communication about Electrum-BLK development is happening in [Discord](https://discord.blackcoin.nl),
+in the `#electrum-blk` channel.
 
 Please improve translations on [Crowdin](https://crowdin.com/project/electrum).
