@@ -1696,8 +1696,8 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         return self._labels.get(tx_hash) or self._get_default_label_for_txid(tx_hash) or ""
 
     def _get_default_label_for_txid(self, tx_hash: str) -> str:
-        if label := self._default_labels.get(tx_hash):
-            return label
+        if tx_hash in self._default_labels:
+            return self._default_labels[tx_hash]
         labels = []
         try:
             tx = self.adb.get_transaction(tx_hash)
