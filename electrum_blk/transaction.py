@@ -2365,6 +2365,7 @@ class PartialTransaction(Transaction):
             inputs: Sequence[PartialTxInput],
             outputs: Sequence[PartialTxOutput],
             *,
+            time: int = None,
             locktime: int = None,
             version: int = None,
             BIP69_sort: bool = True
@@ -2372,6 +2373,8 @@ class PartialTransaction(Transaction):
         self = cls()
         self._inputs = list(inputs)
         self._outputs = list(outputs)
+        if time is not None:
+            self.time = time
         if locktime is not None:
             self.locktime = locktime
         if version is not None:
