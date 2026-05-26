@@ -923,10 +923,22 @@ class Transaction:
             raise Exception(f"cannot initialize transaction from {raw}")
         self._inputs = None  # type: List[TxInput]
         self._outputs = None  # type: List[TxOutput]
+        self._time = 0
         self._locktime = 0
         self._version = 2
 
         self._cached_txid = None  # type: Optional[str]
+
+    @property
+    def time(self):
+        self.deserialize()
+        return self._time
+
+    @time.setter
+    def time(self, value):
+        assert isinstance(value, int), f"time must be int, not {value!r}"
+        self._time = value
+        self.invalidate_ser_cache()
 
     @property
     def locktime(self):
@@ -934,7 +946,7 @@ class Transaction:
         return self._locktime
 
     @locktime.setter
-    def locktime(self, value: int):
+    def locktime(self, value):
         assert isinstance(value, int), f"locktime must be int, not {value!r}"
         self._locktime = value
         self.invalidate_ser_cache()
