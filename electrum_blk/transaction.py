@@ -964,6 +964,7 @@ class Transaction:
     def to_json(self) -> dict:
         d = {
             'version': self.version,
+            'time': self.time,
             'locktime': self.locktime,
             'inputs': [txin.to_json() for txin in self.inputs()],
             'outputs': [txout.to_json() for txout in self.outputs()],
@@ -994,6 +995,8 @@ class Transaction:
         vds = BCDataStream()
         vds.write(raw_bytes)
         self._version = vds.read_int32()
+        if self._version < 2:
+            self._time = vds.read_uint32()
         n_vin = vds.read_compact_size()
         is_segwit = (n_vin == 0)
         if is_segwit:
@@ -1078,6 +1081,7 @@ class Transaction:
         sighash_cache: SighashCache = None,
     ) -> bytes:
         nVersion = int.to_bytes(self.version, length=4, byteorder="little", signed=True)
+        nTime = int.to_bytes(self.time, length=4, byteorder="little", signed=True)
         nLocktime = int.to_bytes(self.locktime, length=4, byteorder="little", signed=False)
         inputs = self.inputs()
         outputs = self.outputs()
@@ -1164,7 +1168,11 @@ class Transaction:
                 for k, txin in enumerate(inputs))
             txouts = var_int(len(outputs)) + b"".join(o.serialize_to_network() for o in outputs)
             nHashType = int.to_bytes(sighash, length=4, byteorder="little", signed=False)
-            preimage = nVersion + txins + txouts + nLocktime + nHashType
+            # Blackcoin
+            if self.version < 2:
+                preimage = nVersion + nTime + txins + txouts + nLocktime + nHashType
+            else:
+                preimage = nVersion + txins + txouts + nLocktime + nHashType
             return preimage
         raise Exception("should not reach this")
 
@@ -1211,6 +1219,7 @@ class Transaction:
         """
         self.deserialize()
         nVersion = int.to_bytes(self.version, length=4, byteorder="little", signed=True).hex()
+        nTime = int.to_bytes(self.time, length=4, byteorder="little", signed=True).hex()
         nLocktime = int.to_bytes(self.locktime, length=4, byteorder="little", signed=False).hex()
         inputs = self.inputs()
         outputs = self.outputs()
@@ -1234,7 +1243,11 @@ class Transaction:
             witness = ''.join(self.serialize_witness(x, estimate_size=estimate_size).hex() for x in inputs)
             return nVersion + marker + flag + txins + txouts + witness + nLocktime
         else:
-            return nVersion + txins + txouts + nLocktime
+            # Blackcoin v1 transactions include nTime after nVersion
+            if self.version < 2:
+                return nVersion + nTime + txins + txouts + nLocktime
+            else:
+                return nVersion + txins + txouts + nLocktime
 
     def to_qr_data(self) -> Tuple[str, bool]:
         """Returns (serialized_tx, is_complete). The tx is serialized to be put inside a QR code. No side-effects.
