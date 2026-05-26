@@ -517,3 +517,36 @@ class TestUtil(ElectrumTestCase):
         # refs should be cleaned up by now:
         self.assertEqual(0, len(util._running_asyncio_tasks))
 
+    async def test_old_task_group_exception_retrieval(self):
+        from electrum_blk.util import OldTaskGroup
+        async def failing_task():
+            raise ValueError("Expected exception")
+
+        async def cancelled_task():
+            await asyncio.sleep(10)
+
+        # 1. Test wait=all case (default)
+        with self.assertRaises(ValueError):
+            async with OldTaskGroup() as group:
+                await group.spawn(failing_task())
+                await group.spawn(cancelled_task())
+
+        # Check that exceptions were retrieved (task.exception() won't warn/error)
+        for task in group._all_tasks:
+            self.assertTrue(task.done())
+            # calling exception() should not raise CancelledError or throw warning
+            if not task.cancelled():
+                self.assertIsNotNone(task.exception())
+
+        # 2. Test wait=any case
+        async def successful_task():
+            return "ok"
+
+        async with OldTaskGroup(wait=any) as group:
+            await group.spawn(successful_task())
+            await group.spawn(failing_task())
+
+        for task in group._all_tasks:
+            self.assertTrue(task.done())
+            if not task.cancelled() and task.exception():
+                self.assertIsNotNone(task.exception())

@@ -1395,6 +1395,16 @@ class OldTaskGroup(aiorpcx.TaskGroup):
     ```
     # TODO see if we can migrate to asyncio.timeout, introduced in python 3.11, and use stdlib instead of aiorpcx.curio...
     """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._all_tasks = set()
+
+    def _add_task(self, task):
+        super()._add_task(task)
+        if not hasattr(self, '_all_tasks'):
+            self._all_tasks = set()
+        self._all_tasks.add(task)
+
     async def join(self):
         if self._wait is all:
             exc = False
@@ -1409,10 +1419,18 @@ class OldTaskGroup(aiorpcx.TaskGroup):
                 if exc:
                     await self.cancel_remaining()
                 await super().join()
+                for task in getattr(self, '_all_tasks', []):
+                    if task.done() and not task.cancelled():
+                        task.exception()
         else:
-            await super().join()
-            if self.completed:
-                self.completed.result()
+            try:
+                await super().join()
+                if self.completed:
+                    self.completed.result()
+            finally:
+                for task in getattr(self, '_all_tasks', []):
+                    if task.done() and not task.cancelled():
+                        task.exception()
 
 
 # We monkey-patch aiorpcx TimeoutAfter (used by timeout_after and ignore_after API),
