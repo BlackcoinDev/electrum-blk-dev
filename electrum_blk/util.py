@@ -678,16 +678,16 @@ def xor_bytes(a: bytes, b: bytes) -> bytes:
 
 
 def user_dir():
-    if "ELECTRUMDIR" in os.environ:
-        return os.environ["ELECTRUMDIR"]
+    if "ELECTRUMBLKDIR" in os.environ:
+        return os.environ["ELECTRUMBLKDIR"]
     elif 'ANDROID_DATA' in os.environ:
         return android_data_dir()
     elif os.name == 'posix':
-        return os.path.join(os.environ["HOME"], ".electrum")
+        return os.path.join(os.environ["HOME"], ".electrum-blk-dev")
     elif "APPDATA" in os.environ:
-        return os.path.join(os.environ["APPDATA"], "Electrum")
+        return os.path.join(os.environ["APPDATA"], "Electrum-BLK-dev")
     elif "LOCALAPPDATA" in os.environ:
-        return os.path.join(os.environ["LOCALAPPDATA"], "Electrum")
+        return os.path.join(os.environ["LOCALAPPDATA"], "Electrum-BLK-dev")
     else:
         #raise Exception("No home directory found in environment variables.")
         return
@@ -953,77 +953,26 @@ def delta_time_str(distance_in_time: timedelta, *, include_seconds: bool = False
 
 
 mainnet_block_explorers = {
-    '3xpl.com': ('https://3xpl.com/bitcoin/',
-                        {'tx': 'transaction/', 'addr': 'address/'}),
-    'Bitflyer.jp': ('https://chainflyer.bitflyer.jp/',
-                        {'tx': 'Transaction/', 'addr': 'Address/'}),
-    'Blockchain.info': ('https://blockchain.com/btc/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'Blockstream.info': ('https://blockstream.info/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'Bitaps.com': ('https://btc.bitaps.com/',
-                        {'tx': '', 'addr': ''}),
-    'BTC.com': ('https://btc.com/',
-                        {'tx': '', 'addr': ''}),
-    'Chain.so': ('https://www.chain.so/',
-                        {'tx': 'tx/BTC/', 'addr': 'address/BTC/'}),
-    'Insight.is': ('https://insight.bitpay.com/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'BlockCypher.com': ('https://live.blockcypher.com/btc/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'Blockchair.com': ('https://blockchair.com/bitcoin/',
-                        {'tx': 'transaction/', 'addr': 'address/'}),
-    'blockonomics.co': ('https://www.blockonomics.co/',
-                        {'tx': 'api/tx?txid=', 'addr': '#/search?q='}),
-    'mempool.space': ('https://mempool.space/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'mempool.emzy.de': ('https://mempool.emzy.de/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'OXT.me': ('https://oxt.me/',
-                        {'tx': 'transaction/', 'addr': 'address/'}),
-    'mynode.local': ('http://mynode.local:3002/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'system default': ('blockchain:/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
+    'cryptoID': ('https://chainz.cryptoid.info/blk',
+                        {'tx': 'tx.dws?', 'addr': 'address.dws?'}),
+    'system default': ('https://chainz.cryptoid.info/blk',
+                        {'tx': 'tx.dws?', 'addr': 'address.dws?'}),
+}
 }
 
 testnet_block_explorers = {
-    'Bitaps.com': ('https://tbtc.bitaps.com/',
-                       {'tx': '', 'addr': ''}),
-    'BlockCypher.com': ('https://live.blockcypher.com/btc-testnet/',
-                       {'tx': 'tx/', 'addr': 'address/'}),
-    'Blockchain.info': ('https://www.blockchain.com/btc-testnet/',
-                       {'tx': 'tx/', 'addr': 'address/'}),
-    'Blockstream.info': ('https://blockstream.info/testnet/',
+    'Blackcoin.NL': ('https://explorer.blackcoin.nl/',
                         {'tx': 'tx/', 'addr': 'address/'}),
-    'mempool.space': ('https://mempool.space/testnet/',
+    'system default': ('https://explorer.blackcoin.nl/',
                         {'tx': 'tx/', 'addr': 'address/'}),
-    'smartbit.com.au': ('https://testnet.smartbit.com.au/',
-                       {'tx': 'tx/', 'addr': 'address/'}),
-    'system default': ('blockchain://000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943/',
-                       {'tx': 'tx/', 'addr': 'address/'}),
 }
 
 testnet4_block_explorers = {
-    'mempool.space': ('https://mempool.space/testnet4/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'wakiyamap.dev': ('https://testnet4-explorer.wakiyamap.dev/',
-                       {'tx': 'tx/', 'addr': 'address/'}),
+    # ...
 }
 
 signet_block_explorers = {
-    'bc-2.jp': ('https://explorer.bc-2.jp/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'mempool.space': ('https://mempool.space/signet/',
-                        {'tx': 'tx/', 'addr': 'address/'}),
-    'bitcoinexplorer.org': ('https://signet.bitcoinexplorer.org/',
-                       {'tx': 'tx/', 'addr': 'address/'}),
-    'wakiyamap.dev': ('https://signet-explorer.wakiyamap.dev/',
-                       {'tx': 'tx/', 'addr': 'address/'}),
-    'ex.signet.bublina.eu.org': ('https://ex.signet.bublina.eu.org/',
-                       {'tx': 'tx/', 'addr': 'address/'}),
-    'system default': ('blockchain:/',
-                       {'tx': 'tx/', 'addr': 'address/'}),
+    # ...
 }
 
 _block_explorer_default_api_loc = {'tx': 'tx/', 'addr': 'address/'}
