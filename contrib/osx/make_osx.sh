@@ -33,20 +33,35 @@ which brew > /dev/null 2>&1 || fail "Please install brew from https://brew.sh/ t
 which xcodebuild > /dev/null 2>&1 || fail "Please install xcode command line tools to continue"
 
 
-info "Installing Python $PYTHON_VERSION"
-PKG_FILE="python-${PYTHON_VERSION}-macos11.pkg"
-if [ ! -f "$CACHEDIR/$PKG_FILE" ]; then
-    curl -o "$CACHEDIR/$PKG_FILE" "https://www.python.org/ftp/python/${PYTHON_VERSION}/$PKG_FILE"
-fi
-echo "8373e58da4ea146b3eb1c1f9834f19a319440b6b679b06050b1f9ee3237aa8e4  $CACHEDIR/$PKG_FILE" | shasum -a 256 -c \
-    || fail "python pkg checksum mismatched"
-sudo installer -pkg "$CACHEDIR/$PKG_FILE" -target / \
-    || fail "failed to install python"
+PYTHON="python${PY_VER_MAJOR}"
 
-# sanity check "python3" has the version we just installed.
-FOUND_PY_VERSION=$(python3 -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
-if [[ "$FOUND_PY_VERSION" != "$PYTHON_VERSION" ]]; then
-    fail "python version mismatch: $FOUND_PY_VERSION != $PYTHON_VERSION"
+info "Checking Python ${PYTHON_VERSION}"
+FOUND_PY_VERSION=$(${PYTHON} -c 'import sys; print(".".join(map(str, sys.version_info[:3])))' 2>/dev/null || echo "0.0.0")
+PY_MAJOR=$(echo "$FOUND_PY_VERSION" | cut -d. -f1)
+PY_MINOR=$(echo "$FOUND_PY_VERSION" | cut -d. -f2)
+PY_PATCH=$(echo "$FOUND_PY_VERSION" | cut -d. -f3)
+NEED_MAJOR=$(echo "$PYTHON_VERSION" | cut -d. -f1)
+NEED_MINOR=$(echo "$PYTHON_VERSION" | cut -d. -f2)
+NEED_PATCH=$(echo "$PYTHON_VERSION" | cut -d. -f3)
+
+if [ "$PY_MAJOR" -eq "$NEED_MAJOR" ] && [ "$PY_MINOR" -eq "$NEED_MINOR" ] && [ "$PY_PATCH" -ge "$NEED_PATCH" ]; then
+    info "Python $FOUND_PY_VERSION already installed, skipping download"
+else
+    info "Installing Python $PYTHON_VERSION"
+    PKG_FILE="python-${PYTHON_VERSION}-macos11.pkg"
+    if [ ! -f "$CACHEDIR/$PKG_FILE" ]; then
+        curl -o "$CACHEDIR/$PKG_FILE" "https://www.python.org/ftp/python/${PYTHON_VERSION}/$PKG_FILE"
+    fi
+    echo "8373e58da4ea146b3eb1c1f9834f19a319440b6b679b06050b1f9ee3237aa8e4  $CACHEDIR/$PKG_FILE" | shasum -a 256 -c \
+        || fail "python pkg checksum mismatched"
+    sudo installer -pkg "$CACHEDIR/$PKG_FILE" -target / \
+        || fail "failed to install python"
+
+    # sanity check the versioned binary matches what we just installed.
+    FOUND_PY_VERSION=$(${PYTHON} -c 'import sys; print(".".join(map(str, sys.version_info[:3])))')
+    if [[ "$FOUND_PY_VERSION" != "$PYTHON_VERSION" ]]; then
+        fail "python version mismatch: $FOUND_PY_VERSION != $PYTHON_VERSION"
+    fi
 fi
 
 break_legacy_easy_install
@@ -55,18 +70,22 @@ break_legacy_easy_install
 # This helps to avoid older versions of pip-installed dependencies interfering with the build.
 VENV_DIR="$CONTRIB_OSX/build-venv"
 rm -rf "$VENV_DIR"
-python3 -m venv "$VENV_DIR"
+${PYTHON} -m venv "$VENV_DIR"
 source "$VENV_DIR/bin/activate"
 
 # don't add debug info to compiled C files (e.g. when pip calls setuptools/wheel calls gcc)
 # see https://github.com/pypa/pip/issues/6505#issuecomment-526613584
 # note: this does not seem sufficient when cython is involved (although it is on linux, just not on mac... weird.)
 #       see additional "strip" pass on built files later in the file.
-export CFLAGS="-g0"
+OPENSSL_PREFIX=$(brew --prefix openssl)
+export CFLAGS="-g0 -I${OPENSSL_PREFIX}/include"
+export LDFLAGS="-L${OPENSSL_PREFIX}/lib"
+export CPPFLAGS="-I${OPENSSL_PREFIX}/include"
 
 # Do not build universal binaries. The default on macos 11+ and xcode 12+ is "-arch arm64 -arch x86_64"
 # but with that e.g. "hid.cpython-310-darwin.so" is not reproducible as built by clang.
-export ARCHFLAGS="-arch x86_64"
+NATIVE_ARCH=$(uname -m)
+export ARCHFLAGS="-arch ${NATIVE_ARCH}"
 
 info "Installing build dependencies"
 # note: re pip installing from PyPI,
@@ -85,7 +104,7 @@ python3 -m pip install --no-build-isolation --no-dependencies --no-binary :all: 
     || fail "Could not install build dependencies (mac)"
 
 info "Installing some build-time deps for compilation..."
-brew install autoconf automake libtool gettext coreutils pkgconfig libiconv
+brew install autoconf automake libtool gettext coreutils pkgconfig openssl libiconv
 
 info "Building PyInstaller."
 PYINSTALLER_REPO="https://github.com/pyinstaller/pyinstaller.git"
@@ -121,6 +140,34 @@ PYINSTALLER_COMMIT="306d4d92580fea7be7ff2c89ba112cdc6f73fac1"
 info "Installing PyInstaller."
 python3 -m pip install --no-build-isolation --no-dependencies \
     --cache-dir "$PIP_CACHE_DIR" --no-warn-script-location "$CACHEDIR/pyinstaller"
+
+# Patch PyInstaller's osx.py to handle cross-link symlinks created before
+# their target directories exist. Without this, os.makedirs fails with
+# FileNotFoundError when it encounters a broken symlink in the path.
+PYI_OSX_PY="$VENV_DIR/lib/python$PY_VER_MAJOR/site-packages/PyInstaller/building/osx.py"
+if grep -q "candidate = os.path.dirname(candidate)" "$PYI_OSX_PY" 2>/dev/null; then
+    info "PyInstaller osx.py symlink fix already applied, skipping."
+else
+    python3 -c "
+import re, sys
+with open('$PYI_OSX_PY', 'r') as f:
+    src = f.read()
+old = '            dest_dir = os.path.dirname(dest_path)\n            try:'
+new = '''            dest_dir = os.path.dirname(dest_path)
+            candidate = dest_dir
+            while candidate and len(candidate) > len(self.name):
+                if os.path.islink(candidate) and not os.path.exists(candidate):
+                    dest_dir = os.path.realpath(candidate) + dest_dir[len(candidate):]
+                    break
+                candidate = os.path.dirname(candidate)
+            try:'''
+if old not in src:
+    sys.exit('Pattern not found in osx.py, cannot patch')
+with open('$PYI_OSX_PY', 'w') as f:
+    f.write(src.replace(old, new))
+"
+    info "Patched PyInstaller osx.py to handle broken cross-link symlinks."
+fi
 
 info "Using these versions for building $PACKAGE:"
 sw_vers
@@ -172,6 +219,7 @@ fi
 cp -f "$DLL_TARGET_DIR/libusb-1.0.dylib" "$PROJECT_ROOT/electrum_blk/" || fail "Could not copy libusb dylib"
 
 # opt out of compiling C extensions
+export FROZENLIST_NO_EXTENSIONS=1
 export YARL_NO_EXTENSIONS=1
 export PROPCACHE_NO_EXTENSIONS=1
 
@@ -220,7 +268,7 @@ info "Finished building unsigned dist/${PACKAGE}.app. This hash should be reprod
 find "dist/${PACKAGE}.app" -type f -print0 | sort -z | xargs -0 shasum -a 256 | shasum -a 256
 
 info "Creating unsigned .DMG"
-hdiutil create -fs HFS+ -volname $PACKAGE -srcfolder dist/$PACKAGE.app dist/electrum-$VERSION-unsigned.dmg || fail "Could not create .DMG"
+hdiutil create -fs HFS+ -volname $PACKAGE -srcfolder dist/$PACKAGE.app dist/electrum-blk-$VERSION-$NATIVE_ARCH-unsigned.dmg || fail "Could not create .DMG"
 
 info "App was built successfully but was not code signed. Users may get security warnings from macOS."
 info "Now you also need to run sign_osx.sh to codesign/notarize the binary."

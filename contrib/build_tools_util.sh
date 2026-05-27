@@ -156,6 +156,15 @@ if ! [ -x "$(command -v realpath)" ]; then
     }
 fi
 
+# macOS compatibility: use GNU coreutils prefixes (greadlink, gdate)
+if [ "$(uname)" = "Darwin" ]; then
+    export READLINK="greadlink"
+    export DATE="gdate"
+else
+    export READLINK="readlink"
+    export DATE="date"
+fi
+
 
 export SOURCE_DATE_EPOCH=1530212462
 export ZERO_AR_DATE=1 # for macOS

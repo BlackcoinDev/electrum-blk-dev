@@ -26,7 +26,7 @@ block_cipher = None
 hiddenimports = []
 hiddenimports += collect_submodules('pkg_resources')  # workaround for https://github.com/pypa/setuptools/issues/1963
 hiddenimports += collect_submodules(f"{PYPKG}.plugins")
-
+hiddenimports += ['_scrypt']
 
 binaries = []
 # Workaround for "Retro Look":
@@ -117,7 +117,7 @@ exe = EXE(
     upx=True,
     icon=ICONS_FILE,
     console=False,
-    target_arch='x86_64',  # TODO investigate building 'universal2'
+    target_arch=None,  # uses the arch of the bootloader
 )
 
 app = BUNDLE(

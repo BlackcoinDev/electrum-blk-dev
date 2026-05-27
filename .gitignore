@@ -53,5 +53,5 @@ electrum_blk/*.dylib
 contrib/osx/*.dylib
 
 # Blackcoin specifics
-/.omo/
+.omo
 AGENTS.md

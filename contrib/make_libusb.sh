@@ -1,7 +1,7 @@
 #!/bin/bash
 
-LIBUSB_VERSION="d52e355daa09f17ce64819122cb067b8a2ee0d4b"
-# ^ tag v1.0.27
+LIBUSB_VERSION="87a55632db62c9bdc58cd31d3ccfa673f1bb017f"
+# ^ tag v1.0.30
 
 set -e
 
@@ -44,6 +44,7 @@ info "Building $pkgname..."
             LDFLAGS=""
         fi
         LDFLAGS="$LDFLAGS" ./configure \
+            --prefix="$here/$pkgname/dist" \
             $AUTOCONF_FLAGS \
             || fail "Could not configure $pkgname. Please make sure you have a C compiler installed and try again."
     fi

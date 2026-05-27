@@ -4,7 +4,7 @@
 Licence: MIT Licence
 Author: Thomas Voegtlin
 BLK Port Maintainers: lateminer & BlackcoinDev
-Language: Python (>= 3.10)
+Language: Python (>= 3.11.2)
 Homepage: https://blackcoin.org/
 ```
 
@@ -63,6 +63,13 @@ Install from your package manager (or from pip):
 $ sudo apt-get install python3-cryptography
 ```
 
+For fast blockchain verification,
+[scrypt](https://github.com/holgern/py-scrypt) is required.
+Install from your package manager (or from pip):
+```
+$ sudo apt-get install python3-scrypt
+```
+
 #### hardware-wallet support
 
 If you would like hardware wallet support,
@@ -79,7 +86,7 @@ directory. To run Electrum-BLK from its root directory, just do:
 $ ./run_electrum
 ```
 
-You can also install Electrum on your system, by running this command:
+You can also install Electrum-BLK on your system, by running this command:
 ```
 $ sudo apt-get install python3-setuptools python3-pip
 $ python3 -m pip install --user .

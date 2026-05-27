@@ -56,10 +56,13 @@ info "Building $pkgname..."
                 --disable-dependency-tracking"
         elif [ $(uname) == "Darwin" ]; then
             # macos target
+            LIBICONV_PREFIX=$(brew --prefix libiconv)
             AUTOCONF_FLAGS="$AUTOCONF_FLAGS \
                 --with-x=no \
                 --enable-video=no \
-                --with-jpeg=no"
+                --with-jpeg=no \
+                LDFLAGS=-L${LIBICONV_PREFIX}/lib \
+                CPPFLAGS=-I${LIBICONV_PREFIX}/include"
         else
             # linux target
             AUTOCONF_FLAGS="$AUTOCONF_FLAGS \

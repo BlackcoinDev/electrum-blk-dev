@@ -9,7 +9,8 @@
 
 set -e
 
-PROJECT_ROOT="$(dirname "$(readlink -e "$0")")/.."
+if [ "$(uname)" = "Darwin" ]; then READLINK="greadlink"; else READLINK="readlink"; fi
+PROJECT_ROOT="$(dirname "$("$READLINK" -e "$0")")/.."
 CONTRIB="$PROJECT_ROOT/contrib"
 
 cd "$PROJECT_ROOT"
