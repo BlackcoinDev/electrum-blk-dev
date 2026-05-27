@@ -33,8 +33,11 @@ CCY_PRECISIONS = {'BHD': 3, 'BIF': 0, 'BYR': 0, 'CLF': 4, 'CLP': 0,
                   'LYD': 3, 'MGA': 1, 'MRO': 1, 'OMR': 3, 'PYG': 0,
                   'RWF': 0, 'TND': 3, 'UGX': 0, 'UYI': 0, 'VND': 0,
                   'VUV': 0, 'XAF': 0, 'XAU': 4, 'XOF': 0, 'XPF': 0,
-                  # Cryptocurrencies
+                  # Cryptocurrencies (8 decimals for BLK/BTC, etc.)
                   'BLK': 8, 'BTC': 8, 'LTC': 6, 'XRP': 4, 'ETH': 8,
+                  # Major fiat — need extra decimals for low-priced crypto rates
+                  'EUR': 6, 'USD': 6, 'GBP': 6, 'CAD': 6, 'AUD': 6,
+                  'CHF': 6, 'JPY': 6, 'CNY': 6, 'SGD': 6, 'NZD': 6,
                   }
 
 SPOT_RATE_REFRESH_TARGET = 150      # approx. every 2.5 minutes, try to refresh spot price
@@ -202,7 +205,7 @@ class ExchangeBase(Logger):
 
     async def get_currencies(self) -> Sequence[str]:
         rates = await self.get_rates('')
-        return sorted([str(a) for (a, b) in rates.items() if b is not None and len(a)==3])
+        return sorted([str(a) for (a, b) in rates.items() if b is not None and len(a) >= 3])
 
     def get_cached_spot_quote(self, ccy: str) -> Decimal:
         """Returns the exchange rate as a Decimal"""
@@ -841,7 +844,7 @@ class FxThread(ThreadJob, EventListener, NetworkRetryManager[str]):
 
     def timestamp_rate(self, timestamp: Optional[int]) -> Decimal:
         from .util import timestamp_to_datetime
-        date = timestamp_to_datetime(timestamp)
+        date = timestamp_to_datetime(timestamp, utc=True)
         return self.history_rate(date)
 
 
