@@ -32,8 +32,8 @@ if 'ANDROID_DATA' in os.environ:
         jPythonActivity = autoclass('org.kivy.android.PythonActivity').mActivity
         jIntent = autoclass('android.content.Intent')
         jString = autoclass('java.lang.String')
-        jBiometricActivity = autoclass('org.electrum.biometry.BiometricActivity')
-        jBiometricHelper = autoclass('org.electrum.biometry.BiometricHelper')
+        jBiometricActivity = autoclass('org.blackcoin.biometry.BiometricActivity')
+        jBiometricHelper = autoclass('org.blackcoin.biometry.BiometricHelper')
     except JavaException as e:
         _logger.error(f"Could not load Biometric java classes (maybe due to old api version): {e}")
 

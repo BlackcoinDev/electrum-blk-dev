@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-import org.electrum 1.0
+import org.blackcoin 1.0
 
 TextField {
     id: amount

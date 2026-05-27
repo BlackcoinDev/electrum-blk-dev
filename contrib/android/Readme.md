@@ -169,8 +169,8 @@ Run `$ adb shell pm list users` to get a list of all existing users, and take no
 
 Instead of `/data/data/{app.path}`, private app data is stored at `/data/user/{userId}/{app.path}`.
 
-Further, instead of `adb$ run-as org.electrum.electrum`,
-you need `adb$ run-as org.electrum.electrum --user {userId}`.
+Further, instead of `adb$ run-as org.blackcoin.electrumblk`,
+you need `adb$ run-as org.blackcoin.electrumblk --user {userId}`.
 
 ### How to investigate diff between binaries if reproducibility fails?
 ```

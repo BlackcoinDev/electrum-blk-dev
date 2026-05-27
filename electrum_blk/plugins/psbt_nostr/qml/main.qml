@@ -1,6 +1,6 @@
 import QtQuick
 
-import org.electrum
+import org.blackcoin
 
 import "../../../gui/qml/components/controls"
 
