@@ -322,8 +322,8 @@ class Commands(Logger):
     @command('')
     async def restore(self, text, passphrase=None, password=None, encrypt_file=True, wallet_path=None):
         """Restore a wallet from text. Text can be a seed phrase, a master
-        public key, a master private key, a list of bitcoin addresses
-        or bitcoin private keys.
+        public key, a master private key, a list of blackcoin addresses
+        or blackcoin private keys.
         If you want to be prompted for an argument, type '?' or ':' (concealed)
 
         arg:str:text:seed phrase
@@ -1131,7 +1131,7 @@ class Commands(Logger):
     @command('w')
     async def setlabel(self, key, label, wallet: Abstract_Wallet = None):
         """
-        Assign a label to an item. Item may be a bitcoin address or a
+        Assign a label to an item. Item may be a blackcoin address or a
         transaction ID
 
         arg:str:key:Key

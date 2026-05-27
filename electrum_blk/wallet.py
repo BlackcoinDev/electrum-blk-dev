@@ -833,7 +833,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         if self.is_watching_only():
             raise UserFacingException(_("This is a watching-only wallet"))
         if not is_address(address):
-            raise UserFacingException(_('Invalid bitcoin address: {}').format(address))
+            raise UserFacingException(_('Invalid blackcoinaddress: {}').format(address))
         if not self.is_mine(address):
             raise UserFacingException(_('Address not in wallet: {}').format(address))
         index = self.get_address_index(address)
@@ -1858,7 +1858,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         elif self.use_change:
             change_addrs = self._get_change_addresses_we_can_use_now(allow_reuse=allow_reusing_used_change_addrs)
         for addr in change_addrs:
-            assert is_address(addr), f"not valid bitcoin address: {addr}"
+            assert is_address(addr), f"not valid blackcoin address: {addr}"
             # note that change addresses are not necessarily ismine
             # in which case this is a no-op
             self.check_address_for_corruption(addr)
@@ -1903,7 +1903,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
             addrs = self.get_change_addresses(slice_start=-gap_limit)
             change_addrs = [random.choice(addrs)] if addrs else []
         for addr in change_addrs:
-            assert is_address(addr), f"not valid bitcoin address: {addr}"
+            assert is_address(addr), f"not valid blackcoin address: {addr}"
             # note that change addresses are not necessarily ismine
             # in which case this is a no-op
             self.check_address_for_corruption(addr)
@@ -4463,8 +4463,8 @@ def restore_wallet_from_text(
     wallet_factory = Wallet,  # used in tests
 ) -> dict:
     """Restore a wallet from text. Text can be a seed phrase, a master
-    public key, a master private key, a list of bitcoin addresses
-    or bitcoin private keys."""
+    public key, a master private key, a list of blackcoin addresses
+    or blackcoin private keys."""
     if encrypt_file is None:
         encrypt_file = True
     if path is None:  # create wallet in-memory
