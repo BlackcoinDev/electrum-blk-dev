@@ -85,7 +85,7 @@ requirements =
 presplash.filename = %(source.dir)s/electrum_blk/gui/icons/electrum_presplash.png
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/electrum/gui/icons/android_electrum_icon_legacy.png
+icon.filename = %(source.dir)s/electrum_blk/gui/icons/android_electrum_icon_legacy.png
 icon.adaptive_foreground.filename = %(source.dir)s/electrum_blk/gui/icons/android_electrum_icon_foreground.png
 icon.adaptive_background.filename = %(source.dir)s/electrum_blk/gui/icons/android_electrum_icon_background.png
 
@@ -164,7 +164,7 @@ android.add_aars =
 
 # (list) List of Java files to add to the android project (can be java or a
 # directory containing the files)
-android.add_src = electrum/gui/qml/java_classes/
+android.add_src = electrum_blk/gui/qml/java_classes/
 
 # kotlin-stdlib is required for zxing-cpp (BarcodeScannerView)
 android.gradle_dependencies =
