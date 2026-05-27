@@ -24,7 +24,7 @@ if __name__ == '__main__':
     for fname in files_list:
         lang_code = os.path.basename(os.path.dirname(os.path.dirname(fname)))
         try:
-            t = gettext.translation('electrum', LOCALE_DIR, languages=[lang_code])
+            t = gettext.translation('electrum-blk', LOCALE_DIR, languages=[lang_code])
         except OSError as e:
             raise Exception(f"cannot find or parse .mo file matching {fname!r}") from e
         # calc catalog size of translated strings
@@ -32,17 +32,17 @@ if __name__ == '__main__':
         # same SourceStringCount header should be present in all .mo files:
         t_info = t.info()
         try:
-            ss_cnt = int(t_info["x-electrum-sourcestringcount"])
+            ss_cnt = int(t_info["x-electrum-blk-sourcestringcount"])
         except Exception as e:
             raise Exception(
-                f"missing or malformed 'x-electrum-sourcestringcount' header, for {lang_code!r}.\n"
+                f"missing or malformed 'x-electrum-blk-sourcestringcount' header, for {lang_code!r}.\n"
                 f"found {t_info}"
             ) from e
         if source_string_count is None:
             source_string_count = ss_cnt
         elif source_string_count != ss_cnt:
             raise Exception(
-                f"inconsistent 'x-electrum-sourcestringcount' headers! "
+                f"inconsistent 'x-electrum-blk-sourcestringcount' headers! "
                 f"prev_cnt={source_string_count}, new_cnt={ss_cnt} (for lang={lang_code})")
     # - convert to json data. example:
     #     {

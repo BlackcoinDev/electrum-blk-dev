@@ -1304,7 +1304,7 @@ def make_aiohttp_proxy_connector(proxy: 'ProxySettings', ssl_context: Optional[s
 
 def make_aiohttp_session(proxy: Optional['ProxySettings'], headers=None, timeout=None):
     if headers is None:
-        headers = {'User-Agent': 'Electrum'}
+        headers = {'User-Agent': 'Electrum-BLK'}
     if timeout is None:
         # The default timeout is high intentionally.
         # DNS on some systems can be really slow, see e.g. #5337

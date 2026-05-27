@@ -101,7 +101,7 @@ with open(f"{build_dir}/messages.pot", "r", encoding="utf-8") as f:
 with open(f"{build_dir}/messages_customheader.pot", "w", encoding="utf-8") as f:
     f.write('''msgid ""\n''')
     f.write('''msgstr ""\n''')
-    f.write(f'''"X-Electrum-SourceStringCount: {cnt_src_strings}"\n''')
+    f.write(f'''"X-Electrum-BLK-SourceStringCount: {cnt_src_strings}"\n''')
 cmd = ["msgcat", "-u", "-o", f"{build_dir}/messages.pot", f"{build_dir}/messages.pot", f"{build_dir}/messages_customheader.pot"]
 print('Add custom header to template')
 subprocess.check_output(cmd)
