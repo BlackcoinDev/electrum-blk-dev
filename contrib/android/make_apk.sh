@@ -49,6 +49,8 @@ info "apk building phase starts."
 #
 # Testnet4
 #export APP_PACKAGE_DOMAIN=org.blackcoin.testnet4
+export APP_PACKAGE_DOMAIN=org.blackcoin
+export APP_PACKAGE_NAME=ElectrumBLK
 
 if [ $CI ]; then
     # override log level specified in buildozer.spec to "debug":
