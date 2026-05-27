@@ -145,7 +145,7 @@ class AbstractNet:
         return cls.NET_NAME
 
 
-class BlackcoinMainnet(AbstractNet):
+class BitcoinMainnet(AbstractNet):
     NET_NAME = "mainnet"
     TESTNET = False
     WIF_PREFIX = 0x99
@@ -198,8 +198,8 @@ class BlackcoinMainnet(AbstractNet):
         return None
 
 
-class BlackcoinTestnet(AbstractNet):
-    NET_NAME = "blacktestnet"
+class BitcoinTestnet(AbstractNet):
+    NET_NAME = "testnet"
     TESTNET = True
     WIF_PREFIX = 0xef
     ADDRTYPE_P2PKH = 111
@@ -246,8 +246,8 @@ class BlackcoinTestnet(AbstractNet):
     LN_DNS_SEEDS = []
 
 
-class BlackcoinRegtest(BlackcoinTestnet):
-    NET_NAME = "blackregtest"
+class BitcoinRegtest(BitcoinTestnet):
+    NET_NAME = "regtest"
     SEGWIT_HRP = "blrt"
     BOLT11_HRP = "blrt"
     GENESIS = "0000724595fb3b9609d441cbfb9577615c292abf07d996d3edabc48de843642d"
@@ -266,7 +266,7 @@ assert len(NETS_LIST) == len(set([chain.cli_flag() for chain in NETS_LIST])), "c
 assert len(NETS_LIST) == len(set([chain.config_key() for chain in NETS_LIST])), "config_key must be unique for each concrete AbstractNet"
 
 # don't import net directly, import the module instead (so that net is singleton)
-net = BlackcoinMainnet  # type: Type[AbstractNet]
+net = BitcoinMainnet  # type: Type[AbstractNet]
 
 class BitcoinSimnet:
     NET_NAME = "simnet"
@@ -275,10 +275,3 @@ class BitcoinSimnet:
     ADDRTYPE_P2PKH = 0x3f
     ADDRTYPE_P2SH = 0x7b
     WIF_PREFIX = 0x64
-
-# Aliases for backward compatibility
-BitcoinMainnet = BlackcoinMainnet
-BitcoinTestnet = BlackcoinTestnet
-BitcoinRegtest = BlackcoinRegtest
-BlackcoinMainnet = BlackcoinMainnet
-BlackcoinTestnet = BlackcoinTestnet

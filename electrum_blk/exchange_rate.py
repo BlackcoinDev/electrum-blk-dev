@@ -34,7 +34,7 @@ CCY_PRECISIONS = {'BHD': 3, 'BIF': 0, 'BYR': 0, 'CLF': 4, 'CLP': 0,
                   'RWF': 0, 'TND': 3, 'UGX': 0, 'UYI': 0, 'VND': 0,
                   'VUV': 0, 'XAF': 0, 'XAU': 4, 'XOF': 0, 'XPF': 0,
                   # Cryptocurrencies
-                  'BTC': 8, 'LTC': 6, 'XRP': 4, 'ETH': 8,
+                  'BLK': 8, 'BTC': 8, 'LTC': 6, 'XRP': 4, 'ETH': 8,
                   }
 
 SPOT_RATE_REFRESH_TARGET = 150      # approx. every 2.5 minutes, try to refresh spot price
@@ -205,8 +205,8 @@ class ExchangeBase(Logger):
         return sorted([str(a) for (a, b) in rates.items() if b is not None and len(a)==3])
 
     def get_cached_spot_quote(self, ccy: str) -> Decimal:
-        """Returns the cached exchange rate as a Decimal"""
-        if ccy == 'BTC':
+        """Returns the exchange rate as a Decimal"""
+        if ccy == 'BLK':
             return Decimal(1)
         rate = self._quotes.get(ccy)
         if not rate:  # don't return 0 to prevent DivisionByZero exceptions
@@ -224,7 +224,7 @@ class Yadio(ExchangeBase):
         return list(dicts.keys())
 
     async def get_rates(self, ccy: str) -> Mapping[str, Optional[Decimal]]:
-        json = await self.get_json('api.yadio.io', '/rate/%s/BTC' % ccy)
+        json = await self.get_json('api.yadio.io', '/rate/%s/BLK' % ccy)
         return {ccy: to_decimal(json['rate'])}
 
 
@@ -234,7 +234,7 @@ class BitcoinAverage(ExchangeBase):
 
     async def get_rates(self, ccy):
         json = await self.get_json('apiv2.bitcoinaverage.com', '/indices/global/ticker/short')
-        return dict([(r.replace("BTC", ""), to_decimal(json[r]['last']))
+        return dict([(r.replace("BLK", ""), to_decimal(json[r]['last']))
                      for r in json if r != 'timestamp'])
 
 
@@ -249,16 +249,16 @@ class BitcoinVenezuela(ExchangeBase):
 
     async def get_rates(self, ccy):
         json = await self.get_json('api.bitcoinvenezuela.com', '/')
-        rates = [(r, to_decimal(json['BTC'][r])) for r in json['BTC']
-                 if json['BTC'][r] is not None]  # Giving NULL for LTC
+        rates = [(r, to_decimal(json['BLK'][r])) for r in json['BLK']
+                 if json['BLK'][r] is not None]  # Giving NULL for LTC
         return dict(rates)
 
     def history_ccys(self):
         return ['ARS', 'EUR', 'USD', 'VEF']
 
     async def request_history(self, ccy):
-        json = await self.get_json('api.bitcoinvenezuela.com', "/historical/index.php?coin=BTC")
-        return json[ccy + '_BTC']
+        json = await self.get_json('api.bitcoinvenezuela.com', "/historical/index.php?coin=BLK")
+        return json[ccy + '_BLK']
 
 
 class Bitbank(ExchangeBase):
@@ -275,7 +275,7 @@ class BitFinex(ExchangeBase):
             'api-pub.bitfinex.com',
             f"/v2/conf/pub:list:pair:exchange")
         pairs = [pair for pair in json[0]
-                 if len(pair) == 6 and pair[:3] == "BTC"]
+                 if len(pair) == 6 and pair[:3] == "BLK"]
         return [pair[3:] for pair in pairs]
 
     def history_ccys(self):
@@ -285,14 +285,14 @@ class BitFinex(ExchangeBase):
         # ref https://docs.bitfinex.com/reference/rest-public-ticker
         json = await self.get_json(
             'api-pub.bitfinex.com',
-            f"/v2/ticker/tBTC{ccy}")
+            f"/v2/ticker/tBLK{ccy}")
         return {ccy: to_decimal(json[6])}
 
     async def request_history(self, ccy):
         # ref https://docs.bitfinex.com/reference/rest-public-candles
         history = await self.get_json(
             'api.bitfinex.com',
-            f"/v2/candles/trade:1D:tBTC{ccy}/hist?limit=10000")
+            f"/v2/candles/trade:1D:tBLK{ccy}/hist?limit=10000")
         return dict([(timestamp_to_datetime(h[0] // 1000, utc=True).strftime('%Y-%m-%d'), str(h[2]))
                      for h in history])
 
@@ -327,13 +327,13 @@ class BitStamp(ExchangeBase):
             f"/api/v2/ticker/")
         pairs = [ticker["pair"] for ticker in json]
         pairs = [pair for pair in pairs
-                 if len(pair) == 7 and pair[:4] == "BTC/"]
+                 if len(pair) == 7 and pair[:4] == "BLK/"]
         return [pair[4:] for pair in pairs]
 
     async def get_rates(self, ccy):
         # ref https://www.bitstamp.net/api/#tag/Tickers/operation/GetMarketTicker
         if ccy in CURRENCIES[self.name()]:
-            json = await self.get_json('www.bitstamp.net', f'/api/v2/ticker/btc{ccy.lower()}/')
+            json = await self.get_json('www.bitstamp.net', f'/api/v2/ticker/blk{ccy.lower()}/')
             return {ccy: to_decimal(json['last'])}
         return {}
 
@@ -383,7 +383,7 @@ class BlockchainInfo(ExchangeBase):
 class Bylls(ExchangeBase):
 
     async def get_rates(self, ccy):
-        json = await self.get_json('bylls.com', '/api/price?from_currency=BTC&to_currency=CAD')
+        json = await self.get_json('bylls.com', '/api/price?from_currency=BLK&to_currency=CAD')
         return {'CAD': to_decimal(json['public_price']['to_price'])}
 
 
@@ -391,14 +391,14 @@ class Coinbase(ExchangeBase):
 
     async def get_rates(self, ccy):
         json = await self.get_json('api.coinbase.com',
-                             '/v2/exchange-rates?currency=BTC')
+                             '/v2/exchange-rates?currency=BLK')
         return {ccy: to_decimal(rate) for (ccy, rate) in json["data"]["rates"].items()}
 
 
 class CoinCap(ExchangeBase):
 
     async def get_rates(self, ccy):
-        json = await self.get_json('api.coincap.io', '/v2/rates/bitcoin/')
+        json = await self.get_json('api.coincap.io', '/v2/rates/blackcoin/')
         return {'USD': to_decimal(json['data']['rateUsd'])}
 
     def history_ccys(self):
@@ -408,7 +408,7 @@ class CoinCap(ExchangeBase):
         # Currently 2000 days is the maximum in 1 API call
         # (and history starts on 2017-03-23)
         history = await self.get_json('api.coincap.io',
-                                      '/v2/assets/bitcoin/history?interval=d1&limit=2000')
+                                      '/v2/assets/blackcoin/history?interval=d1&limit=2000')
         return dict([(timestamp_to_datetime(h['time']/1000, utc=True).strftime('%Y-%m-%d'), str(h['priceUsd']))
                      for h in history['data']])
 
@@ -445,9 +445,15 @@ class CoinDesk(ExchangeBase):
 class CoinGecko(ExchangeBase):
 
     async def get_rates(self, ccy):
-        json = await self.get_json('api.coingecko.com', '/api/v3/exchange_rates')
-        return dict([(ccy.upper(), to_decimal(d['value']))
-                     for ccy, d in json['rates'].items() if d.get('value') is not None])
+        # ref https://docs.coingecko.com/v3.0.1/reference/coins-id
+        json = await self.get_json(
+            'api.coingecko.com',
+            '/api/v3/coins/blackcoin?localization=false&tickers=false'
+            '&market_data=true&community_data=false&developer_data=false'
+        )
+        prices = json['market_data']['current_price']
+        return {ccy.upper(): to_decimal(rate)
+                for ccy, rate in prices.items() if rate is not None}
 
     def history_ccys(self):
         # CoinGecko seems to have historical data for all ccys it supports
@@ -460,7 +466,7 @@ class CoinGecko(ExchangeBase):
         # > Your request exceeds the allowed time range. Public API users are limited to querying
         # > historical data within the past 365 days. Upgrade to a paid plan to enjoy full historical data access
         history = await self.get_json('api.coingecko.com',
-                                      f"/api/v3/coins/bitcoin/market_chart?vs_currency={ccy}&days={num_days}")
+                                      f"/api/v3/coins/blackcoin/market_chart?vs_currency={ccy}&days={num_days}")
 
         return dict([(timestamp_to_datetime(h[0]/1000, utc=True).strftime('%Y-%m-%d'), str(h[1]))
                      for h in history['prices']])
@@ -550,14 +556,14 @@ class Zaif(ExchangeBase):
 class Bitragem(ExchangeBase):
 
     async def get_rates(self,ccy):
-        json = await self.get_json('api.bitragem.com', '/v1/index?asset=BTC&market=BRL')
+        json = await self.get_json('api.bitragem.com', '/v1/index?asset=BLK&market=BRL')
         return {'BRL': to_decimal(json['response']['index'])}
 
 
 class Biscoint(ExchangeBase):
 
     async def get_rates(self,ccy):
-        json = await self.get_json('api.biscoint.io', '/v1/ticker?base=BTC&quote=BRL')
+        json = await self.get_json('api.biscoint.io', '/v1/ticker?base=BLK&quote=BRL')
         return {'BRL': to_decimal(json['data']['last'])}
 
 

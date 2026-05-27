@@ -10,7 +10,7 @@ from .bitcoin import COIN
 from .bolt11 import decode_bolt11_invoice, BOLT11DecodeException
 
 # note: when checking against these, use .lower() to support case-insensitivity
-BITCOIN_BIP21_URI_SCHEME = 'bitcoin'
+BITCOIN_BIP21_URI_SCHEME = 'blackcoin'
 LIGHTNING_URI_SCHEME = 'lightning'
 
 # note: URI scheme handler registrations are duplicated all over the codebase:
@@ -69,7 +69,7 @@ def parse_bip21_URI(uri: str) -> dict:
             else:
                 amount = Decimal(am) * COIN
             if amount > bitcoin.TOTAL_COIN_SUPPLY_LIMIT_IN_BTC * COIN or amount <= 0:
-                raise InvalidBitcoinURI(f"amount is out-of-bounds: {amount!r} BTC")
+                raise InvalidBitcoinURI(f"amount is out-of-bounds: {amount!r} BLK")
             out['amount'] = int(amount)
         except Exception as e:
             raise InvalidBitcoinURI(f"failed to parse 'amount' field: {repr(e)}") from e

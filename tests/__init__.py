@@ -51,29 +51,29 @@ electrum_blk.blockchain.hash_header = test_hash_header
 
 # Override network constants to use Bitcoin values during tests, since the entire
 # test suite is inherited from upstream and expects Bitcoin addresses, derivations, and WIF formats.
-constants.BlackcoinMainnet.WIF_PREFIX = 0x80
-constants.BlackcoinMainnet.ADDRTYPE_P2PKH = 0
-constants.BlackcoinMainnet.ADDRTYPE_P2SH = 5
-constants.BlackcoinMainnet.SEGWIT_HRP = "bc"
-constants.BlackcoinMainnet.BOLT11_HRP = "bc"
-constants.BlackcoinMainnet.BIP44_COIN_TYPE = 0
-constants.BlackcoinMainnet.GENESIS = "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"
+constants.BitcoinMainnet.WIF_PREFIX = 0x80
+constants.BitcoinMainnet.ADDRTYPE_P2PKH = 0
+constants.BitcoinMainnet.ADDRTYPE_P2SH = 5
+constants.BitcoinMainnet.SEGWIT_HRP = "bc"
+constants.BitcoinMainnet.BOLT11_HRP = "bc"
+constants.BitcoinMainnet.BIP44_COIN_TYPE = 0
+constants.BitcoinMainnet.GENESIS = "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f"
 
-constants.BlackcoinTestnet.WIF_PREFIX = 0xef
-constants.BlackcoinTestnet.ADDRTYPE_P2PKH = 111
-constants.BlackcoinTestnet.ADDRTYPE_P2SH = 196
-constants.BlackcoinTestnet.SEGWIT_HRP = "tb"
-constants.BlackcoinTestnet.BOLT11_HRP = "tb"
-constants.BlackcoinTestnet.BIP44_COIN_TYPE = 1
-constants.BlackcoinTestnet.GENESIS = "000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943"
+constants.BitcoinTestnet.WIF_PREFIX = 0xef
+constants.BitcoinTestnet.ADDRTYPE_P2PKH = 111
+constants.BitcoinTestnet.ADDRTYPE_P2SH = 196
+constants.BitcoinTestnet.SEGWIT_HRP = "tb"
+constants.BitcoinTestnet.BOLT11_HRP = "tb"
+constants.BitcoinTestnet.BIP44_COIN_TYPE = 1
+constants.BitcoinTestnet.GENESIS = "000000000933ea01ad0ee984209779baaec3ced90fa3f408719526f8d77f4943"
 
-constants.BlackcoinRegtest.WIF_PREFIX = 0xef
-constants.BlackcoinRegtest.ADDRTYPE_P2PKH = 111
-constants.BlackcoinRegtest.ADDRTYPE_P2SH = 196
-constants.BlackcoinRegtest.SEGWIT_HRP = "bcrt"
-constants.BlackcoinRegtest.BOLT11_HRP = "bcrt"
-constants.BlackcoinRegtest.BIP44_COIN_TYPE = 1
-constants.BlackcoinRegtest.GENESIS = "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206"
+constants.BitcoinRegtest.WIF_PREFIX = 0xef
+constants.BitcoinRegtest.ADDRTYPE_P2PKH = 111
+constants.BitcoinRegtest.ADDRTYPE_P2SH = 196
+constants.BitcoinRegtest.SEGWIT_HRP = "bcrt"
+constants.BitcoinRegtest.BOLT11_HRP = "bcrt"
+constants.BitcoinRegtest.BIP44_COIN_TYPE = 1
+constants.BitcoinRegtest.GENESIS = "0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206"
 
 # Override fee constants to Bitcoin values for test compatibility.
 # The test suite is inherited from upstream Electrum and uses hardcoded
