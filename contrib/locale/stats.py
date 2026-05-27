@@ -24,7 +24,7 @@ if __name__ == '__main__':
     for fname in files_list:
         lang_code = os.path.basename(os.path.dirname(os.path.dirname(fname)))
         try:
-            t = gettext.translation('electrum-blk', LOCALE_DIR, languages=[lang_code])
+            t = gettext.translation('electrum', LOCALE_DIR, languages=[lang_code])
         except OSError as e:
             raise Exception(f"cannot find or parse .mo file matching {fname!r}") from e
         # calc catalog size of translated strings
