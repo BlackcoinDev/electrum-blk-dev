@@ -958,7 +958,6 @@ mainnet_block_explorers = {
     'system default': ('https://chainz.cryptoid.info/blk',
                         {'tx': 'tx.dws?', 'addr': 'address.dws?'}),
 }
-}
 
 testnet_block_explorers = {
     'Blackcoin.NL': ('https://explorer.blackcoin.nl/',
