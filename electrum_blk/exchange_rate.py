@@ -36,7 +36,7 @@ CCY_PRECISIONS = {'BHD': 3, 'BIF': 0, 'BYR': 0, 'CLF': 4, 'CLP': 0,
                   # Cryptocurrencies and exceptions
                   'BLK': 8, 'BTC': 8, 'LTC': 6, 'XRP': 4, 'ETH': 8,
                   'EUR': 6, 'USD': 6, 'GBP': 6, 'CAD': 6, 'AUD': 6,
-                  'CHF': 6, 'JPY': 6, 'CNY': 6, 'SGD': 6, 'NZD': 6,
+                  'CHF': 6, 'CNY': 6, 'SGD': 6, 'NZD': 6,
                   'BRL': 6, 'TWD': 6, 'SOL': 6, 'BNB': 6, 'SATS': 6,
                   }
 
