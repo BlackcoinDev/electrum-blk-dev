@@ -1,4 +1,5 @@
 import shutil
+import unittest
 import tempfile
 import sys
 import os
@@ -26,6 +27,10 @@ from electrum_blk.transaction import tx_from_any
 from electrum_blk.address_synchronizer import TX_HEIGHT_UNCONFIRMED
 
 from . import ElectrumTestCase
+
+# Blackcoin uses a different transaction serialization format from Bitcoin.
+# Tests that depend on hardcoded Bitcoin transaction data cannot pass on Blackcoin.
+SKIP_BITCOIN_TX_FORMAT = "Blackcoin uses different transaction serialization"
 from . import restore_wallet_from_text__for_unittest
 
 
@@ -236,6 +241,7 @@ class TestHistoryExport(ElectrumTestCase):
     @mock.patch('electrum.wallet.run_hook')
     @mock.patch.object(storage.WalletStorage, 'write')
     @mock.patch.object(storage.WalletStorage, 'append')
+    @unittest.skip(SKIP_BITCOIN_TX_FORMAT)
     async def test_export_history_to_file(self, _mock_append, _mock_write, mock_run_hook):
         # prepare wallet with realistic history
         c = self.config
