@@ -6,7 +6,7 @@ trezor[hidapi]>=0.20.1,<0.21
 # device plugin: safe_t
 safet>=0.1.5
 
-# device plugin: keepkey (vendored keepkeylib — transitive deps still required)
+# device plugin: keepkey
 ecdsa>=0.9
 protobuf>=3.20
 mnemonic>=0.8

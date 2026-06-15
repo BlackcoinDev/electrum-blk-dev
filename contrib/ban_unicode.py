@@ -19,7 +19,11 @@ project_root = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 os.chdir(project_root)
 
 EXCLUDE_PATH_PREFIX = {
-    "electrum/wordlist/",
+    "electrum_blk/wordlist/",
+    "electrum_blk/__pycache__/",
+    "electrum_blk/_vendor/",
+    "electrum_blk/plugins/",
+    "electrum_blk/locale/",
     "fastlane/",
     "tests/",
 }
