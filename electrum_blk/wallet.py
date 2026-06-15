@@ -428,7 +428,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         self.taskgroup = None
 
         # saved fields
-        self.use_change            = db.get('use_change', False)
+        self.use_change            = db.get('use_change', True)
         self.multiple_change       = db.get('multiple_change', False)
         self._labels               = db.get_dict('labels')
         self._frozen_addresses     = set(db.get('frozen_addresses', []))
@@ -3758,7 +3758,7 @@ class Imported_Wallet(Simple_Wallet):
 
     def __init__(self, db, *, config):
         Abstract_Wallet.__init__(self, db, config=config)
-        self.use_change = db.get('use_change', False)
+        self.use_change = db.get('use_change', True)
 
     def is_watching_only(self):
         return self.keystore is None

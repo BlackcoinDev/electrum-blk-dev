@@ -44,7 +44,7 @@ if TYPE_CHECKING:
 
 COINBASE_MATURITY = 500  # Blackcoin mainnet (testnet=10 via constants.net)
 COIN = 100000000
-TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 9223372036854775807  # Blackcoin INT64_MAX (unlimited supply, not 21M BTC cap)
+TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 100_000_000  # 100M BLK (unlimited supply, 1% APR -- sensible upper bound for amount validation)
 
 NLOCKTIME_MIN = 0
 NLOCKTIME_BLOCKHEIGHT_MAX = 500_000_000 - 1

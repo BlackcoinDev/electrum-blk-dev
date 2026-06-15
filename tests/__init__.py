@@ -38,6 +38,7 @@ from electrum_blk import constants
 import electrum_blk.bitcoin
 
 # Override total supply limit to Bitcoin's 21M for testing regex/amount limits
+# (production value is 100M BLK, but tests use Bitcoin's 21M cap)
 electrum_blk.bitcoin.TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 21000000
 
 import electrum_blk.blockchain

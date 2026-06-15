@@ -56,9 +56,9 @@ def create_fallback_node_list(fallback_nodes_dict: dict[str, dict]) -> List[LNPe
     return fallback_nodes
 
 
-GIT_REPO_URL = "https://github.com/spesmilo/electrum"
-GIT_REPO_ISSUES_URL = "https://github.com/spesmilo/electrum/issues"
-RELEASE_NOTES_URL = "https://raw.githubusercontent.com/spesmilo/electrum/refs/heads/master/RELEASE-NOTES"
+GIT_REPO_URL = "https://github.com/CoinBlack/electrum-blk"
+GIT_REPO_ISSUES_URL = "https://github.com/CoinBlack/electrum-blk/issues"
+RELEASE_NOTES_URL = "https://raw.githubusercontent.com/CoinBlack/electrum-blk/refs/heads/develop/RELEASE-NOTES"
 BIP39_WALLET_FORMATS = read_json('bip39_wallet_formats.json')
 
 
@@ -164,7 +164,7 @@ class BitcoinMainnet(AbstractNet):
     BLOCK_HEIGHT_FIRST_LIGHTNING_CHANNELS = 0
     COINBASE_MATURITY = 500
     LAST_POW_BLOCK = 10000
-    TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 9223372036854775807  # INT64_MAX (unlimited)
+    TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 100_000_000  # 100M BLK (unlimited supply, 1% APR -- sensible upper bound for amount validation)
 
     POW_LIMIT = 0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     POS_LIMIT = 0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -216,7 +216,7 @@ class BitcoinTestnet(AbstractNet):
     DEFAULT_PORTS = {'t': '10011', 's': '10012'}
     COINBASE_MATURITY = 10
     LAST_POW_BLOCK = 0x7fffffff
-    TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 9223372036854775807  # INT64_MAX (unlimited)
+    TOTAL_COIN_SUPPLY_LIMIT_IN_BTC = 100_000_000  # 100M BLK (unlimited supply, 1% APR -- sensible upper bound for amount validation)
 
     POW_LIMIT = 0x0000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     POS_LIMIT = 0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
