@@ -192,10 +192,7 @@ class SettingsDialog(QDialog, QtEventListener):
 
         updatecheck_cb = checkbox_from_configvar(self.config.cv.AUTOMATIC_CENTRALIZED_UPDATE_CHECKS)
         updatecheck_cb.setChecked(self.config.AUTOMATIC_CENTRALIZED_UPDATE_CHECKS)
-
-        def on_set_updatecheck(_x):
-            self.config.AUTOMATIC_CENTRALIZED_UPDATE_CHECKS = updatecheck_cb.isChecked()
-        updatecheck_cb.stateChanged.connect(on_set_updatecheck)
+        updatecheck_cb.setEnabled(False)
 
         filelogging_cb = checkbox_from_configvar(self.config.cv.WRITE_LOGS_TO_DISK)
         filelogging_cb.setChecked(self.config.WRITE_LOGS_TO_DISK)

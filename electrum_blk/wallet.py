@@ -428,7 +428,7 @@ class Abstract_Wallet(ABC, Logger, EventListener):
         self.taskgroup = None
 
         # saved fields
-        self.use_change            = db.get('use_change', True)
+        self.use_change            = db.get('use_change', False)
         self.multiple_change       = db.get('multiple_change', False)
         self._labels               = db.get_dict('labels')
         self._frozen_addresses     = set(db.get('frozen_addresses', []))

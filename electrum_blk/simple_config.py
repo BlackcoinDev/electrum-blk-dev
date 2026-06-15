@@ -667,7 +667,7 @@ class SimpleConfig(Logger):
     )
     WALLET_COIN_CHOOSER_POLICY = ConfigVar('coin_chooser', default='Privacy', type_=str)
     WALLET_COIN_CHOOSER_OUTPUT_ROUNDING = ConfigVar(
-        'coin_chooser_output_rounding', default=True, type_=bool,
+        'coin_chooser_output_rounding', default=False, type_=bool,
         short_desc=lambda: _('Enable output value rounding'),
         long_desc=lambda: (
             _('Set the value of the change output so that it has similar precision to the other outputs.') + '\n' +
@@ -782,7 +782,7 @@ Warning: setting this to too low will result in lots of payment failures."""),
     TEST_LN_OPEN_SRK_CHANNELS = ConfigVar('test_ln_open_srk_channels', default=False, type_=bool)
 
     # fee_policy is a dict: fee_policy_name -> fee_policy_descriptor
-    FEE_POLICY = ConfigVar('fee_policy.default', default='eta:2', type_=str)  # exposed to GUI
+    FEE_POLICY = ConfigVar('fee_policy.default', default='feerate:100000', type_=str)  # exposed to GUI
     FEE_POLICY_LIGHTNING = ConfigVar('fee_policy.lnwatcher', default='eta:2', type_=str)  # for txbatcher (sweeping)
     FEE_POLICY_SWAPS = ConfigVar('fee_policy.swaps', default='eta:2', type_=str)  # for txbatcher (sweeping and sending if we are a swapserver)
     TEST_DISABLE_AUTOMATIC_FEE_ETA_UPDATE = ConfigVar('test_disable_automatic_fee_eta_update', default=False, type_=bool)
@@ -825,7 +825,7 @@ Warning: setting this to too low will result in lots of payment failures."""),
     )
     GUI_QT_RECEIVE_TAB_QR_VISIBLE = ConfigVar('receive_qr_visible', default=False, type_=bool)
     GUI_QT_TX_EDITOR_SHOW_IO = ConfigVar(
-        'show_tx_io', default=False, type_=bool,
+        'show_tx_io', default=True, type_=bool,
         short_desc=lambda: _('Show inputs and outputs'),
     )
     GUI_QT_TX_EDITOR_SHOW_FEE_DETAILS = ConfigVar(
@@ -836,9 +836,9 @@ Warning: setting this to too low will result in lots of payment failures."""),
         'show_tx_locktime', default=False, type_=bool,
         short_desc=lambda: _('Edit Locktime'),
     )
-    GUI_QT_SHOW_TAB_ADDRESSES = ConfigVar('show_addresses_tab', default=False, type_=bool)
+    GUI_QT_SHOW_TAB_ADDRESSES = ConfigVar('show_addresses_tab', default=True, type_=bool)
     GUI_QT_SHOW_TAB_CHANNELS = ConfigVar('show_channels_tab', default=False, type_=bool)
-    GUI_QT_SHOW_TAB_UTXO = ConfigVar('show_utxo_tab', default=False, type_=bool)
+    GUI_QT_SHOW_TAB_UTXO = ConfigVar('show_utxo_tab', default=True, type_=bool)
     GUI_QT_SHOW_TAB_CONTACTS = ConfigVar('show_contacts_tab', default=False, type_=bool)
     GUI_QT_SHOW_TAB_CONSOLE = ConfigVar('show_console_tab', default=False, type_=bool)
     GUI_QT_SHOW_TAB_NOTES = ConfigVar('show_notes_tab', default=False, type_=bool)
