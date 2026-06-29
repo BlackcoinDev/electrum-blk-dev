@@ -321,6 +321,11 @@ class TestStorageUpgrade(WalletTestCase):
         wallet_str = self._get_wallet_str()
         await self._upgrade_storage(wallet_str)
 
+    async def test_upgrade_from_client_4_0_1_with_invoices(self):
+        # wallet with one invoice and one request. seed_version is 31
+        wallet_str = self._get_wallet_str()
+        await self._upgrade_storage(wallet_str)
+
     @as_testnet
     @unittest.skip("Blackcoin: wallet data contains Bitcoin transactions")
     async def test_upgrade_from_client_4_5_2_9dk_with_ln(self):
