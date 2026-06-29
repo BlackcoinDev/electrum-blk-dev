@@ -28,12 +28,12 @@ from typing import Optional, Callable, TYPE_CHECKING
 
 from PyQt6.QtCore import pyqtSignal, pyqtProperty
 
-from electrum import get_logger
-from electrum.gui.common_qt.util import qt_event_listener, QtEventListener
-from electrum.submarine_swaps import SwapServerTransport
+from electrum_blk import get_logger
+from electrum_blk.gui.common_qt.util import qt_event_listener, QtEventListener
+from electrum_blk.submarine_swaps import SwapServerTransport
 
 if TYPE_CHECKING:
-    from electrum.wallet import Abstract_Wallet
+    from electrum_blk.wallet import Abstract_Wallet
 
 
 class SubmarineSwapMixin(QtEventListener):

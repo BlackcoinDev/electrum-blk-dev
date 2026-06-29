@@ -120,8 +120,8 @@ sys._ELECTRUM_RUNNING_VIA_RUNELECTRUM = True  # used by logging.py
 
 from electrum_blk.logging import get_logger, configure_logging  # import logging submodule first
 from electrum_blk import util
-from electrum_blk import SimpleConfig
 from electrum_blk.payment_identifier import PaymentIdentifier
+from electrum_blk import SimpleConfig
 from electrum_blk.wallet_db import WalletDB
 from electrum_blk.wallet import Wallet
 from electrum_blk.storage import WalletStorage
@@ -129,10 +129,10 @@ from electrum_blk.util import print_msg, print_stderr, json_encode, json_decode,
 from electrum_blk.util import InvalidPassword
 from electrum_blk.plugin import Plugins
 from electrum_blk.commands import get_parser, get_simple_parser, known_commands, Commands, config_variables
+from electrum_blk import daemon
 from electrum_blk.util import create_and_start_event_loop, UserFacingException, JsonRPCError
 from electrum_blk.i18n import set_language
 from electrum_blk import constants
-from electrum_blk import daemon
 
 if TYPE_CHECKING:
     import threading

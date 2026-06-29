@@ -3,12 +3,18 @@
         "pruning": "-",
         "s": "10002",
         "t": "10001",
-        "version": "1.4.2"
+        "version": "1.6"
     },
     "electrum2.blackcoin.nl": {
         "pruning": "-",
         "s": "20002",
         "t": "20001",
-        "version": "1.4.2"
+        "version": "1.6"
+    },
+    "electrum3.blackcoin.nl": {
+        "pruning": "-",
+        "s": "30002",
+        "t": "30001",
+        "version": "1.6"
     }
 }

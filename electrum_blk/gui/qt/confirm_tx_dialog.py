@@ -39,7 +39,7 @@ from electrum_blk.util import (UserCancelled, quantize_feerate, profiler, NotEno
 from electrum_blk.plugin import run_hook
 from electrum_blk.transaction import PartialTransaction, PartialTxOutput, Transaction
 from electrum_blk.wallet import InternalAddressCorruption
-from electrum.bitcoin import DummyAddress
+from electrum_blk.bitcoin import DummyAddress
 from electrum_blk.fee_policy import FeePolicy, FixedFeePolicy, FeeMethod
 from electrum_blk.logging import Logger
 from electrum_blk.submarine_swaps import NostrTransport, SwapServerError
