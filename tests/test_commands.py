@@ -11,7 +11,7 @@ import shutil
 import electrum_blk
 from electrum_blk.commands import Commands, eval_bool
 from electrum_blk import storage, wallet
-from electrum_blk.lnutil import RECEIVED
+from electrum_blk.lnutil import RECEIVED, channel_id_from_funding_tx
 from electrum_blk.lnworker import RecvMPPResolution
 from electrum_blk.wallet import Abstract_Wallet
 from electrum_blk.address_synchronizer import TX_HEIGHT_UNCONFIRMED

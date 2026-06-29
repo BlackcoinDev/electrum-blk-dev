@@ -3173,6 +3173,7 @@ class TestWalletSending(ElectrumTestCase):
 
         # imported wallets do not send change to change addresses by default
         # (they send it back to the "from address")
+        wallet.use_change = False
         self.assertFalse(wallet.use_change)
 
         outputs = [PartialTxOutput.from_address_and_value('tb1qq4pypzwxf5uanfyckmsu3ejxxf6rrvjqchza3v', 49646)]
