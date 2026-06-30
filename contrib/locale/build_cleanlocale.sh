@@ -15,3 +15,6 @@ git clean -ffxd
 git reset --hard
 rm -rf llm_proofreader
 "$CONTRIB_LOCALE/build_locale.sh" "$LOCALE/locale" "$LOCALE/locale"
+
+cd "$LOCALE"
+git checkout -- .
